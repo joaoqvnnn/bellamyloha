@@ -287,4 +287,259 @@
                   <h4>Ativar notificações</h4>
                   <p>Liga ou desliga todos os avisos.</p>
                 </div>
-                <label class="toggle"><input type="checkbox" data-setting
+                <label class="toggle"><input type="checkbox" data-setting="notifications.master" id="notifMaster" /><span class="toggle-track"></span></label>
+              </div>
+              <div class="pref-item"><div class="pref-body"><h4>Compras</h4><p>Confirmações e atualizações de pedidos.</p></div><label class="toggle"><input type="checkbox" data-setting="notifications.purchases" /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Pagamentos</h4><p>Confirmações de PIX, boleto e cartão.</p></div><label class="toggle"><input type="checkbox" data-setting="notifications.payments" /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Avisos de vencimento</h4><p>Telas e assinaturas próximas do vencimento.</p></div><label class="toggle"><input type="checkbox" data-setting="notifications.expiration" /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Avisos de renovação</h4><p>Renovações automáticas e manuais.</p></div><label class="toggle"><input type="checkbox" data-setting="notifications.renewal" /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Novidades e promoções</h4><p>Ofertas, cupons e novos produtos.</p></div><label class="toggle"><input type="checkbox" data-setting="notifications.news" /><span class="toggle-track"></span></label></div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Preferências de e-mail</h2>
+              <p>O que você quer receber no e-mail principal.</p>
+            </div>
+            <div class="pref-list">
+              <div class="pref-item"><div class="pref-body"><h4>Comprovantes de pagamento</h4><p>Recibo a cada pagamento aprovado.</p></div><label class="toggle"><input type="checkbox" data-setting="notifications.email.receipts" /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Extratos</h4><p>Envios de extratos solicitados.</p></div><label class="toggle"><input type="checkbox" data-setting="notifications.email.statements" /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Atualizações de pedidos</h4><p>Confirmações, cancelamentos e entregas.</p></div><label class="toggle"><input type="checkbox" data-setting="notifications.email.orders" /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Avisos de assinatura</h4><p>Renovações e vencimentos.</p></div><label class="toggle"><input type="checkbox" data-setting="notifications.email.subscriptions" /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Ofertas e promoções</h4><p>Novidades, cupons e descontos.</p></div><label class="toggle"><input type="checkbox" data-setting="notifications.email.offers" /><span class="toggle-track"></span></label></div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Preferências de WhatsApp</h2>
+              <p>Mensagens enviadas para o número verificado.</p>
+            </div>
+            <div class="pref-list">
+              <div class="pref-item">
+                <div class="pref-body"><h4>Ativar WhatsApp</h4><p>Receber mensagens no WhatsApp.</p></div>
+                <label class="toggle"><input type="checkbox" data-setting="notifications.whatsapp.enabled" id="whatsappMaster" /><span class="toggle-track"></span></label>
+              </div>
+              <div class="pref-item"><div class="pref-body"><h4>Atualizações de pedidos</h4></div><label class="toggle"><input type="checkbox" data-setting="notifications.whatsapp.orders" data-whatsapp-child /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Avisos de vencimento</h4></div><label class="toggle"><input type="checkbox" data-setting="notifications.whatsapp.dueDate" data-whatsapp-child /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Informações sobre pagamentos</h4></div><label class="toggle"><input type="checkbox" data-setting="notifications.whatsapp.payments" data-whatsapp-child /><span class="toggle-track"></span></label></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== PRIVACIDADE E SEGURANÇA ==================== -->
+        <section class="settings-panel" data-panel="privacidade">
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Privacidade</h2>
+              <p>Gerencie seus consentimentos a qualquer momento. Consulte a <a href="#" class="link-inline">Política de Privacidade</a> e os <a href="#" class="link-inline">Termos de Uso</a>.</p>
+            </div>
+            <div class="pref-list">
+              <div class="pref-item">
+                <div class="pref-body">
+                  <h4>Consentimento de uso de dados</h4>
+                  <p>Obrigatório para usar a conta. Não pode ser desativado.</p>
+                </div>
+                <label class="toggle"><input type="checkbox" checked disabled /><span class="toggle-track"></span></label>
+              </div>
+              <div class="pref-item">
+                <div class="pref-body">
+                  <h4>Cookies de análise</h4>
+                  <p>Ajudar a melhorar a plataforma com dados agregados e anônimos.</p>
+                </div>
+                <label class="toggle"><input type="checkbox" data-setting="privacy.cookiesConsent" /><span class="toggle-track"></span></label>
+              </div>
+              <div class="pref-item">
+                <div class="pref-body">
+                  <h4>Comunicações de marketing</h4>
+                  <p>Receber ofertas personalizadas com base no seu perfil de uso.</p>
+                </div>
+                <label class="toggle"><input type="checkbox" data-setting="privacy.marketing" /><span class="toggle-track"></span></label>
+              </div>
+            </div>
+
+            <div class="panel-card-foot">
+              <button class="btn btn-ghost" id="requestDataBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5Z"/><path d="M14 3.5v5h5"/><path d="M8 12h8M8 16h5"/></svg>
+                Solicitar cópia dos meus dados
+              </button>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Segurança</h2>
+              <p>Proteja sua conta com camadas extras de segurança.</p>
+            </div>
+            <div class="pref-list">
+              <div class="pref-item">
+                <div class="pref-body">
+                  <h4>Autenticação em duas etapas (2FA)</h4>
+                  <p>Enviamos um código por e-mail a cada novo login em dispositivo não reconhecido.</p>
+                </div>
+                <label class="toggle"><input type="checkbox" data-setting="security.twoFactor" id="twoFactorToggle" /><span class="toggle-track"></span></label>
+              </div>
+              <div class="pref-item">
+                <div class="pref-body">
+                  <h4>Alertar sobre novo dispositivo</h4>
+                  <p>Notificação por e-mail quando uma conta for acessada de um dispositivo novo.</p>
+                </div>
+                <label class="toggle"><input type="checkbox" data-setting="security.accessAlertsNewDevice" /><span class="toggle-track"></span></label>
+              </div>
+              <div class="pref-item">
+                <div class="pref-body">
+                  <h4>Alertar sobre novo local</h4>
+                  <p>Notificação quando acessada de uma localização geográfica nova.</p>
+                </div>
+                <label class="toggle"><input type="checkbox" data-setting="security.accessAlertsNewLocation" /><span class="toggle-track"></span></label>
+              </div>
+            </div>
+
+            <div class="panel-card-foot">
+              <div class="shortcuts">
+                <a href="perfil.html#seguranca" class="btn btn-ghost">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                  Gerenciar dispositivos conectados
+                </a>
+                <a href="perfil.html#seguranca" class="btn btn-ghost">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10" width="15" height="10.5" rx="2.6"/><path d="M8.2 10V7.6a3.8 3.8 0 0 1 7.6 0V10"/></svg>
+                  Alterar senha
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== ACESSIBILIDADE ==================== -->
+        <section class="settings-panel" data-panel="acessibilidade">
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Tamanho das letras</h2>
+              <p>Ajusta o tamanho base da fonte em toda a interface.</p>
+            </div>
+            <div class="font-size-options" id="fontSizeOptions">
+              <button class="font-size-option" data-font-size="sm"><span class="fso-aa" data-size="sm">Aa</span><span class="fso-label">Pequeno</span></button>
+              <button class="font-size-option" data-font-size="md"><span class="fso-aa" data-size="md">Aa</span><span class="fso-label">Padrão</span></button>
+              <button class="font-size-option" data-font-size="lg"><span class="fso-aa" data-size="lg">Aa</span><span class="fso-label">Grande</span></button>
+              <button class="font-size-option" data-font-size="xl"><span class="fso-aa" data-size="xl">Aa</span><span class="fso-label">Muito grande</span></button>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Contraste e legibilidade</h2>
+              <p>Ajustes que facilitam a leitura para todos os perfis.</p>
+            </div>
+            <div class="pref-list">
+              <div class="pref-item">
+                <div class="pref-body">
+                  <h4>Maior contraste</h4>
+                  <p>Bordas e textos mais nítidos em toda a interface.</p>
+                </div>
+                <label class="toggle"><input type="checkbox" data-appearance-toggle="contrastHigh" /><span class="toggle-track"></span></label>
+              </div>
+              <div class="pref-item">
+                <div class="pref-body">
+                  <h4>Reduzir animações</h4>
+                  <p>Remove transições e movimentos que podem causar desconforto.</p>
+                </div>
+                <label class="toggle"><input type="checkbox" data-appearance-toggle="reduceAnimations" /><span class="toggle-track"></span></label>
+              </div>
+              <div class="pref-item">
+                <div class="pref-body">
+                  <h4>Melhorar legibilidade</h4>
+                  <p>Aumenta o espaçamento entre linhas e letras.</p>
+                </div>
+                <label class="toggle"><input type="checkbox" data-appearance-toggle="improveReadability" /><span class="toggle-track"></span></label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== LOJA ==================== -->
+        <section class="settings-panel" data-panel="loja">
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Exibição de produtos</h2>
+              <p>Como o catálogo é apresentado para você.</p>
+            </div>
+            <div class="pref-list">
+              <div class="pref-item"><div class="pref-body"><h4>Exibir produtos disponíveis</h4><p>Mostrar itens com estoque.</p></div><label class="toggle"><input type="checkbox" data-setting="store.showAvailable" /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Exibir produtos esgotados</h4><p>Itens sem estoque continuam visíveis com aviso.</p></div><label class="toggle"><input type="checkbox" data-setting="store.showSoldOut" /><span class="toggle-track"></span></label></div>
+              <div class="pref-item"><div class="pref-body"><h4>Recomendações personalizadas</h4><p>Sugerir produtos com base no seu histórico.</p></div><label class="toggle"><input type="checkbox" data-setting="store.personalRecommendations" /><span class="toggle-track"></span></label></div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Categorias favoritas</h2>
+              <p>Selecione o que você quer ver com destaque no catálogo.</p>
+            </div>
+            <div class="favorites-chips" id="favoritesChips"></div>
+          </div>
+        </section>
+
+        <!-- ==================== CONTA ==================== -->
+        <section class="settings-panel" data-panel="conta">
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Informações da conta</h2>
+              <p>Dados técnicos e de cadastro.</p>
+            </div>
+            <div class="info-row"><span class="info-label">ID da conta</span><span class="info-value">CLI-2024-0048</span></div>
+            <div class="info-row"><span class="info-label">Versão do sistema</span><span class="info-value" id="versionLabel">—</span></div>
+            <div class="info-row"><span class="info-label">Ambiente</span><span class="info-value">Produção</span></div>
+            <div class="info-row"><span class="info-label">Status da conta</span><span class="info-value" style="color: var(--ok)">Ativa</span></div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Sessões</h2>
+              <p>Encerre sua sessão em todos os dispositivos conectados.</p>
+            </div>
+            <div class="panel-actions-row" style="display:flex">
+              <div>
+                <h3 style="font-size:13.5px;font-weight:700;margin-bottom:3px">Desconectar de todos os dispositivos</h3>
+                <p style="font-size:12.5px;color:var(--text-muted)">Você será desconectado agora. Precisará entrar novamente.</p>
+              </div>
+              <button class="btn btn-ghost btn-danger-outline" id="disconnectAllBtn">Desconectar todos</button>
+            </div>
+          </div>
+
+          <div class="panel-card panel-danger">
+            <div class="panel-card-head">
+              <h2>Excluir conta</h2>
+              <p>Ao excluir, você perde permanentemente o acesso a telas, assinaturas, pedidos e saldo. Registros fiscais com CPF permanecem por obrigação legal.</p>
+            </div>
+            <div class="danger-row">
+              <div>
+                <h3>Encerrar minha conta</h3>
+                <p>Solicitação irreversível. Você receberá um e-mail com as instruções de confirmação.</p>
+              </div>
+              <button class="btn btn-ghost btn-danger-outline" id="deleteAccountBtn">Solicitar exclusão</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ===================== MODAL CONFIRM ===================== -->
+  <div class="modal" id="confirmModal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel modal-sm" role="dialog" aria-modal="true">
+      <button class="modal-close" data-close aria-label="Fechar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+      <div class="modal-body" id="confirmBody"></div>
+    </div>
+  </div>
+
+  <!-- ===================== TOASTS ===================== -->
+  <div class="toast-stack" id="toastStack"></div>
+
+  <script src="js/configuracoes-data.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/configuracoes.js"></script>
+</body>
+</html>
