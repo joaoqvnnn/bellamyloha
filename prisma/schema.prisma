@@ -1,0 +1,373 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// USUÁRIO E SESSÃO
+// ============================================================
+
+model User {
+  id                  String    @id @default(cuid())
+  email               String    @unique
+  passwordHash        String
+  name                String
+  cpf                 String    @unique
+  phone               String?
+  avatarUrl           String?
+  emailVerified       Boolean   @default(false)
+  verifyToken         String?   @unique
+  verifyExpiresAt     DateTime?
+  twoFactorEnabled    Boolean   @default(false)
+  twoFactorCode       String?
+  twoFactorTempToken  String?
+  twoFactorExpiresAt  DateTime?
+  resetToken          String?   @unique
+  resetExpiresAt      DateTime?
+  status              String    @default("ativa")  // ativa | suspensa | banida
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  wallet              Wallet?
+  transactions        Transaction[]
+  orders              Order[]
+  screens             Screen[]
+  subscriptions       Subscription[]
+  tickets             SupportTicket[]
+  conversations       SupportConversation[]
+  notifications       Notification[]
+  sessions            Session[]
+  settings            UserSettings?
+  profileHistory      ProfileHistory[]
+  cpfRequests         CpfChangeRequest[]
+
+  @@index([email])
+  @@index([cpf])
+}
+
+model Session {
+  id         String   @id @default(cuid())
+  userId     String
+  token      String   @unique
+  userAgent  String?
+  ip         String?
+  device     String?
+  os         String?
+  location   String?
+  current    Boolean  @default(false)
+  lastActive DateTime @default(now())
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ============================================================
+// CARTEIRA E TRANSAÇÕES
+// ============================================================
+
+model Wallet {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  balance      Decimal  @default(0) @db.Decimal(10, 2)
+  pending      Decimal  @default(0) @db.Decimal(10, 2)
+  totalCredits Decimal  @default(0) @db.Decimal(10, 2)
+  totalDebits  Decimal  @default(0) @db.Decimal(10, 2)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Transaction {
+  id            String    @id @default(cuid())
+  userId        String
+  type          String    // entrada | saida
+  category      String    // recarga | compra | renovacao | estorno | ajuste | pagamento
+  description   String
+  value         Decimal   @db.Decimal(10, 2)
+  status        String    // aprovado | pendente | recusado | cancelado
+  paymentMethod String?
+  balanceAfter  Decimal?  @db.Decimal(10, 2)
+  mpId          String?
+  metadata      Json?
+  createdAt     DateTime  @default(now())
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([mpId])
+}
+
+// ============================================================
+// COBRANÇAS PIX (recarga de carteira OU checkout de pedido)
+// ============================================================
+
+model Charge {
+  id           String    @id @default(cuid())
+  userId       String
+  kind         String    // wallet_recharge | checkout
+  amount       Decimal   @db.Decimal(10, 2)
+  bonus        Decimal   @default(0) @db.Decimal(10, 2)
+  total        Decimal   @db.Decimal(10, 2)
+  status       String    @default("pending")
+  qrCode       String?   @db.Text
+  qrCodeBase64 String?   @db.Text
+  mpId         String?   @unique
+  expiresAt    DateTime
+  approvedAt   DateTime?
+  metadata     Json?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([mpId])
+}
+
+// ============================================================
+// CATÁLOGO
+// ============================================================
+
+model Product {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  name          String
+  platform      String
+  platformColor String
+  category      String
+  shortDesc     String
+  description   String   @db.Text
+  features      Json     @default("[]")
+  howItWorks    Json     @default("[]")
+  price         Decimal  @db.Decimal(10, 2)
+  oldPrice      Decimal? @db.Decimal(10, 2)
+  period        String   // /mês | /ano
+  delivery      String   // auto | manual
+  stock         Int      @default(0)
+  rating        Float    @default(0)
+  reviewCount   Int      @default(0)
+  sales         Int      @default(0)
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  orderItems OrderItem[]
+
+  @@index([category])
+  @@index([active])
+}
+
+// ============================================================
+// PEDIDOS
+// ============================================================
+
+model Order {
+  id            String    @id @default(cuid())
+  number        String    @unique
+  userId        String
+  status        String    @default("pendente")
+  paymentStatus String    @default("pendente")
+  paymentMethod String?
+  total         Decimal   @db.Decimal(10, 2)
+  deliveryEmail String
+  deliveredAt   DateTime?
+  chargeId      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items         OrderItem[]
+  history       OrderHistory[]
+
+  @@index([userId, createdAt])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model OrderHistory {
+  id        String   @id @default(cuid())
+  orderId   String
+  action    String
+  detail    String
+  createdAt DateTime @default(now())
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+}
+
+// ============================================================
+// TELAS E ASSINATURAS
+// ============================================================
+
+model Screen {
+  id            String   @id @default(cuid())
+  code          String   @unique
+  userId        String
+  productId     String?
+  platform      String
+  platformColor String
+  plan          String
+  login         String?
+  password      String?
+  contractDate  DateTime
+  dueDate       DateTime
+  value         Decimal  @db.Decimal(10, 2)
+  status        String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+}
+
+model Subscription {
+  id               String   @id @default(cuid())
+  code             String   @unique
+  userId           String
+  platform         String
+  platformColor    String
+  plan             String
+  screens          Int      @default(1)
+  value            Decimal  @db.Decimal(10, 2)
+  periodicity      String
+  autoRenew        Boolean  @default(false)
+  notificationDays Int      @default(7)
+  contractDate     DateTime
+  startDate        DateTime
+  dueDate          DateTime
+  nextBillingDate  DateTime
+  status           String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments         SubscriptionPayment[]
+
+  @@index([userId, status])
+}
+
+model SubscriptionPayment {
+  id             String       @id @default(cuid())
+  subscriptionId String
+  value          Decimal      @db.Decimal(10, 2)
+  method         String?
+  status         String
+  date           DateTime     @default(now())
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// SUPORTE
+// ============================================================
+
+model SupportTicket {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  userId      String
+  category    String
+  priority    String   @default("normal")
+  subject     String
+  description String   @db.Text
+  status      String   @default("aguardando")
+  relatedId   String?
+  attachments Json     @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+}
+
+model SupportConversation {
+  id            String   @id @default(cuid())
+  code          String   @unique
+  userId        String
+  mode          String   @default("ai")
+  contextOrder  String?
+  transferredAt DateTime?
+  closedAt      DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages      SupportMessage[]
+
+  @@index([userId])
+}
+
+model SupportMessage {
+  id             String   @id @default(cuid())
+  conversationId String
+  from           String
+  text           String   @db.Text
+  attachments    Json     @default("[]")
+  createdAt      DateTime @default(now())
+  conversation   SupportConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
+
+// ============================================================
+// NOTIFICAÇÕES, CONFIGURAÇÕES, HISTÓRICO, CPF
+// ============================================================
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  sub       String
+  ref       String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+}
+
+model UserSettings {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  appearance    Json     @default("{}")
+  region        Json     @default("{}")
+  notifications Json     @default("{}")
+  privacy       Json     @default("{}")
+  security      Json     @default("{}")
+  store         Json     @default("{}")
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ProfileHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  detail    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model CpfChangeRequest {
+  id         String    @id @default(cuid())
+  userId     String
+  code       String    @unique
+  reason     String
+  details    String    @db.Text
+  status     String    @default("pendente")
+  reviewedAt DateTime?
+  reviewedBy String?
+  createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
