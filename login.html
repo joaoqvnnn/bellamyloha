@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <title>Entrar — STREAMLY</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/cadastro.css" />
+</head>
+<body class="auth-body">
+
+  <main class="auth-shell">
+
+    <a href="catalogo.html" class="auth-brand">
+      <span class="brand-mark">S</span>
+      <span class="brand-name">STREAMLY</span>
+    </a>
+
+    <!-- Card principal -->
+    <div class="auth-card" id="loginCard">
+
+      <!-- ============ VIEW: LOGIN ============ -->
+      <div id="loginView">
+
+        <h1>Entrar</h1>
+        <p class="auth-sub">Acesse sua conta para continuar.</p>
+
+        <div class="auth-notice">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3.2 4.8 6v5.4c0 4.3 3 8.1 7.2 9.4 4.2-1.3 7.2-5.1 7.2-9.4V6L12 3.2Z"/>
+            <path d="m9.2 12.1 2 2 3.6-3.8"/>
+          </svg>
+          <p>
+            Conexão protegida com criptografia. A STREAMLY <strong>nunca</strong> solicita sua senha por e-mail, SMS ou chat.
+          </p>
+        </div>
+
+        <form id="loginForm" novalidate>
+
+          <!-- E-MAIL -->
+          <div class="field" data-field="email">
+            <label for="email">E-mail</label>
+            <div class="input">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2.6" y="5" width="18.8" height="14" rx="2.6"/>
+                <path d="m3.6 7.2 8.4 5.8 8.4-5.8"/>
+              </svg>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="voce@email.com" />
+              <span class="ok-mark">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+              </span>
+            </div>
+            <span class="msg"></span>
+          </div>
+
+          <!-- SENHA -->
+          <div class="field" data-field="password">
+            <label for="password">Senha</label>
+            <div class="input">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4.5" y="10" width="15" height="10.5" rx="2.6"/>
+                <path d="M8.2 10V7.6a3.8 3.8 0 0 1 7.6 0V10"/>
+              </svg>
+              <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Sua senha" />
+              <button type="button" class="eye" id="eyeBtn" aria-label="Mostrar senha">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2.5 12S6 5.6 12 5.6 21.5 12 21.5 12 18 18.4 12 18.4 2.5 12 2.5 12Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            <span class="msg"></span>
+          </div>
+
+          <!-- Remember + Forgot -->
+          <div class="login-row">
+            <label class="auth-check-inline">
+              <input type="checkbox" id="remember" checked />
+              <span class="ac-box">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+              </span>
+              <span>Lembrar de mim</span>
+            </label>
+            <button type="button" id="forgotLink" class="forgot-link">Esqueci minha senha</button>
+          </div>
+
+          <button type="submit" class="btn btn-primary auth-submit" id="submitBtn">
+            <span id="submitText">Entrar</span>
+            <svg id="submitIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+          </button>
+
+        </form>
+
+        <div class="auth-footer">
+          <span>Não tem conta?</span>
+          <a href="cadastro.html">Criar conta gratuita</a>
+        </div>
+
+      </div>
+
+      <!-- ============ VIEW: 2FA ============ -->
+      <div id="twoFactorView" hidden>
+
+        <div class="twofa-hero">
+          <div class="twofa-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="6" width="19" height="14" rx="2.5"/>
+              <path d="M2.5 11h19M7 16h.01M11 16h4"/>
+            </svg>
+          </div>
+          <h1>Verificação em duas etapas</h1>
+          <p class="auth-sub">Enviamos um código de 6 dígitos para <strong id="twoFaEmail">seu e-mail</strong>. Digite-o abaixo para continuar.</p>
+        </div>
+
+        <form id="twoFaForm" novalidate>
+          <div class="otp-inputs" id="otpInputs">
+            <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-otp="0" autocomplete="one-time-code" />
+            <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-otp="1" />
+            <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-otp="2" />
+            <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-otp="3" />
+            <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-otp="4" />
+            <input type="text" maxlength="1" inputmode="numeric" class="otp-digit" data-otp="5" />
+          </div>
+
+          <div class="twofa-meta">
+            <span class="twofa-timer" id="twoFaTimer">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+              Código expira em <strong id="twoFaTimerValue">10:00</strong>
+            </span>
+            <button type="button" class="forgot-link" id="twoFaResend" disabled>Reenviar código</button>
+          </div>
+
+          <span class="field-error" id="errTwoFa" style="text-align:center;display:block;margin-bottom:12px"></span>
+
+          <button type="submit" class="btn btn-primary auth-submit" id="twoFaSubmit" disabled>
+            <span id="twoFaSubmitText">Verificar código</span>
+          </button>
+
+          <button type="button" class="btn btn-ghost auth-submit" id="twoFaBack" style="margin-top:10px">
+            Voltar
+          </button>
+        </form>
+
+      </div>
+
+    </div>
+
+    <p class="auth-legal">© 2025 STREAMLY · Todos os direitos reservados</p>
+
+  </main>
+
+  <!-- ===================== MODAL: ESQUECI MINHA SENHA ===================== -->
+  <div class="modal" id="forgotModal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel modal-sm" role="dialog" aria-modal="true">
+      <button class="modal-close" data-close aria-label="Fechar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="modal-body" id="forgotBody"></div>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toastStack"></div>
+
+  <script src="js/login.js"></script>
+</body>
+</html>
