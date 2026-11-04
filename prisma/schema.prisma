@@ -395,3 +395,27 @@ model RechargeConfig {
   bonusTiers Json     @default("[]")  // [{ min: 20, max: 49.99, bonus: 0 }, ...]
   updatedAt  DateTime @updatedAt
 }
+
+// ============================================================
+// LOG DE AUDITORIA DO ADMIN
+// ============================================================
+
+model AdminAuditLog {
+  id           String   @id @default(cuid())
+  adminId      String
+  adminEmail   String
+  action       String   // ban_user | unban_user | create_product | update_product | ...
+  entity       String   // user | product | order | cpf_request | site_content | ...
+  entityId     String?
+  description  String
+  before       Json?    // estado anterior (se aplicável)
+  after        Json?    // estado posterior (se aplicável)
+  ip           String?
+  userAgent    String?
+  metadata     Json?
+  createdAt    DateTime @default(now())
+
+  @@index([adminId, createdAt])
+  @@index([entity, entityId])
+  @@index([createdAt])
+}
