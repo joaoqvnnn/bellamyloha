@@ -29,6 +29,9 @@ model User {
   resetToken          String?   @unique
   resetExpiresAt      DateTime?
   status              String    @default("ativa")  // ativa | suspensa | banida
+  role                String    @default("user")   // user | admin
+  bannedAt            DateTime?
+  bannedReason        String?
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
 
@@ -150,6 +153,7 @@ model Product {
   rating        Float    @default(0)
   reviewCount   Int      @default(0)
   sales         Int      @default(0)
+  bonus         String?  // ex: "+2 telas grátis" ou "+30 dias"
   active        Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -370,4 +374,24 @@ model CpfChangeRequest {
   user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+// ============================================================
+// CONFIGURAÇÕES DO SITE (institucional) E RECARGA
+// ============================================================
+
+model SiteContent {
+  key       String   @id            // ex: "about.content", "contact.email"
+  value     String   @db.Text
+  type      String   @default("text")  // text | html | json
+  updatedAt DateTime @updatedAt
+}
+
+model RechargeConfig {
+  id         String   @id @default("default")
+  minAmount  Decimal  @db.Decimal(10, 2) @default(10)
+  maxAmount  Decimal  @db.Decimal(10, 2) @default(5000)
+  packages   Json     @default("[]")  // [{ value: 20, bonus: 0 }, ...]
+  bonusTiers Json     @default("[]")  // [{ min: 20, max: 49.99, bonus: 0 }, ...]
+  updatedAt  DateTime @updatedAt
 }
