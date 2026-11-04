@@ -2,6 +2,9 @@
    VERIFICAR E-MAIL — confirma o token e ativa a conta
    ============================================================ */
 
+// ⚠️ Deve vir ANTES do IIFE (ele lê essa variável na inicialização)
+window.STREAMLY_API_BASE = 'https://streamly-backend.onrender.com/api';
+
 (function () {
   const API_BASE = window.STREAMLY_API_BASE || '/api';
   const card = document.getElementById('verifyCard');
