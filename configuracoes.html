@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <title>Configurações — STREAMLY</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/minhas-telas.css" />
+  <link rel="stylesheet" href="css/meus-pedidos.css" />
+  <link rel="stylesheet" href="css/assinaturas.css" />
+  <link rel="stylesheet" href="css/carteira.css" />
+  <link rel="stylesheet" href="css/historico.css" />
+  <link rel="stylesheet" href="css/perfil.css" />
+  <link rel="stylesheet" href="css/configuracoes.css" />
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <button class="icon-btn nav-toggle" id="navToggle" aria-label="Abrir menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a href="index.html" class="brand"><span class="brand-mark">S</span><span class="brand-name">STREAMLY</span></a>
+    </div>
+    <div class="navbar-right">
+      <button class="icon-btn" id="themeToggle" aria-label="Alternar tema">
+        <svg class="ico-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
+        <svg class="ico-moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+      </button>
+      <div class="dropdown">
+        <button class="icon-btn badge-wrap" id="notifBtn" aria-label="Notificações" aria-haspopup="true" aria-expanded="false">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.5 21a2 2 0 0 0 3 0"/></svg>
+          <span class="badge" id="notifBadge">1</span>
+        </button>
+        <div class="dropdown-menu notif-menu" id="notifDropdown" role="menu">
+          <div class="notif-head"><strong>Notificações</strong><button class="notif-mark" id="notifMarkAll">Marcar todas</button></div>
+          <div class="notif-list" id="notifList"></div>
+        </div>
+      </div>
+      <a href="carteira.html" class="icon-btn" aria-label="Carteira">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h11A2.5 2.5 0 0 1 19 7.5v1H5.5A2.5 2.5 0 0 0 3 11v6a2.5 2.5 0 0 0 2.5 2.5h13A2.5 2.5 0 0 0 21 17V9.5A2.5 2.5 0 0 0 18.5 7"/><circle cx="16.5" cy="13" r="1.4"/></svg>
+      </a>
+      <div class="dropdown">
+        <button class="icon-btn" id="menuBtn" aria-label="Mais opções" aria-haspopup="true" aria-expanded="false">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5.5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="18.5" r="1.6"/></svg>
+        </button>
+        <div class="dropdown-menu" id="menuDropdown" role="menu">
+          <button role="menuitem">Meu perfil</button>
+          <button role="menuitem">Configurações</button>
+          <button role="menuitem">Suporte</button>
+          <hr />
+          <button role="menuitem" class="danger">Sair</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== APP ===================== -->
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <nav class="nav-group">
+        <span class="nav-title">Loja</span>
+        <a href="catalogo.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Catálogo</span>
+        </a>
+        <a href="inicio.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20Z"/><path d="M9 21.5V13h6v8.5"/></svg>
+          <span>Página inicial</span>
+        </a>
+        <a href="index.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span>Minhas telas</span>
+        </a>
+        <a href="meus-pedidos.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h14a1.5 1.5 0 0 1 1.5 1.5v16L17 19l-2.5 2-2.5-2-2.5 2-2.5-2L3.5 21V5A1.5 1.5 0 0 1 5 3.5Z"/><path d="M8 8.5h8M8 12.5h6"/></svg>
+          <span>Meus pedidos</span>
+        </a>
+        <a href="assinaturas.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.5 0 4.8 1 6.5 2.7"/><path d="M21 4v5h-5"/></svg>
+          <span>Assinaturas</span>
+        </a>
+        <a href="carteira.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h11A2.5 2.5 0 0 1 19 7.5v1H5.5A2.5 2.5 0 0 0 3 11v6a2.5 2.5 0 0 0 2.5 2.5h13A2.5 2.5 0 0 0 21 17V9.5A2.5 2.5 0 0 0 18.5 7"/><circle cx="16.5" cy="13" r="1.4"/></svg>
+          <span>Carteira</span>
+        </a>
+        <a href="historico.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3.5 2"/></svg>
+          <span>Histórico</span>
+        </a>
+      </nav>
+      <nav class="nav-group">
+        <span class="nav-title">Minha conta</span>
+        <a href="perfil.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.2 20.5a8 8 0 0 1 15.6 0"/></svg>
+          <span>Perfil</span>
+        </a>
+        <a href="configuracoes.html" class="nav-item is-active">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+          <span>Configurações</span>
+        </a>
+        <a href="suporte.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-3a8 8 0 0 1 16 0v3"/><path d="M4 14a2 2 0 0 0 2 2h1v-5H6a2 2 0 0 0-2 2Z"/><path d="M20 14a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2Z"/><path d="M20 16v1.5A3.5 3.5 0 0 1 16.5 21H13"/></svg>
+          <span>Suporte</span>
+        </a>
+      </nav>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main">
+      <div class="page">
+
+        <!-- HEADER -->
+        <header class="page-header">
+          <div>
+            <h1>Configurações</h1>
+            <p class="page-sub">Personalize sua experiência. As alterações são aplicadas e salvas automaticamente.</p>
+          </div>
+          <div class="page-actions header-actions">
+            <button class="btn btn-ghost" id="resetAllBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+              Restaurar padrões
+            </button>
+            <button class="btn btn-primary" id="saveSettingsBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+              Salvar configurações
+            </button>
+          </div>
+        </header>
+
+        <!-- TABS -->
+        <nav class="settings-tabs" role="tablist">
+          <button class="settings-tab is-active" data-tab="aparencia" role="tab">Aparência</button>
+          <button class="settings-tab" data-tab="regiao" role="tab">Idioma e região</button>
+          <button class="settings-tab" data-tab="notificacoes" role="tab">Notificações</button>
+          <button class="settings-tab" data-tab="privacidade" role="tab">Privacidade e segurança</button>
+          <button class="settings-tab" data-tab="acessibilidade" role="tab">Acessibilidade</button>
+          <button class="settings-tab" data-tab="loja" role="tab">Loja</button>
+          <button class="settings-tab" data-tab="conta" role="tab">Conta</button>
+        </nav>
+
+        <!-- ==================== APARÊNCIA ==================== -->
+        <section class="settings-panel is-active" data-panel="aparencia">
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Tema</h2>
+              <p>Escolha entre claro, escuro ou automático (segue a preferência do seu sistema).</p>
+            </div>
+            <div class="theme-options" id="themeOptions">
+              <button class="theme-option" data-theme-opt="light">
+                <div class="theme-preview theme-preview-light"><div class="tp-bar"></div><div class="tp-card"></div><div class="tp-card"></div></div>
+                <div class="theme-opt-label"><strong>Claro</strong><span>Branco puro</span></div>
+              </button>
+              <button class="theme-option" data-theme-opt="dark">
+                <div class="theme-preview theme-preview-dark"><div class="tp-bar"></div><div class="tp-card"></div><div class="tp-card"></div></div>
+                <div class="theme-opt-label"><strong>Escuro</strong><span>Preto puro</span></div>
+              </button>
+              <button class="theme-option" data-theme-opt="system">
+                <div class="theme-preview theme-preview-system"><div class="tp-half tp-half-light"></div><div class="tp-half tp-half-dark"></div></div>
+                <div class="theme-opt-label"><strong>Automático</strong><span>Segue o sistema</span></div>
+              </button>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Cor principal</h2>
+              <p>Utilizada em botões, destaques, ícones e indicadores de status.</p>
+            </div>
+            <div class="swatch-grid" id="swatchGrid">
+              <button class="swatch" data-color="red" style="--swatch:#e50914" title="Vermelho"><span class="swatch-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span></button>
+              <button class="swatch" data-color="blue" style="--swatch:#0a84ff" title="Azul"><span class="swatch-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span></button>
+              <button class="swatch" data-color="green" style="--swatch:#30d158" title="Verde"><span class="swatch-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span></button>
+              <button class="swatch" data-color="purple" style="--swatch:#bf5af2" title="Roxo"><span class="swatch-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span></button>
+              <button class="swatch" data-color="orange" style="--swatch:#ff9f0a" title="Laranja"><span class="swatch-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span></button>
+              <button class="swatch" data-color="teal" style="--swatch:#00c2a8" title="Verde-água"><span class="swatch-check"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span></button>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Estilo dos cards</h2>
+              <p>Define o arredondamento das bordas em toda a interface.</p>
+            </div>
+            <div class="card-style-options" id="cardStyleOptions">
+              <button class="card-style-option" data-style="rounded">
+                <div class="cso-preview cso-rounded"></div>
+                <span>Arredondado</span>
+              </button>
+              <button class="card-style-option" data-style="soft">
+                <div class="cso-preview cso-soft"></div>
+                <span>Suave</span>
+              </button>
+              <button class="card-style-option" data-style="sharp">
+                <div class="cso-preview cso-sharp"></div>
+                <span>Quadrado</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="panel-card panel-actions-card">
+            <div class="panel-actions-row">
+              <div>
+                <h3>Restaurar aparência</h3>
+                <p>Volta tema, cor, estilo dos cards e acessibilidade ao padrão.</p>
+              </div>
+              <button class="btn btn-ghost" id="resetAppearanceBtn">Restaurar</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== IDIOMA E REGIÃO ==================== -->
+        <section class="settings-panel" data-panel="regiao">
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Idioma e região</h2>
+              <p>Afeta o formato de datas, valores e o idioma da interface.</p>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-row-body"><h4>Idioma da interface</h4><p>Idioma usado em menus e textos.</p></div>
+              <select class="select-inline" data-setting="region.language" id="langSelect"></select>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-row-body"><h4>País</h4><p>Define a localização regional.</p></div>
+              <select class="select-inline" data-setting="region.country" id="countrySelect"></select>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-row-body"><h4>Fuso horário</h4><p>Usado em datas e horários de eventos.</p></div>
+              <select class="select-inline" data-setting="region.timezone" id="timezoneSelect"></select>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-row-body"><h4>Formato de data</h4><p>Como as datas são exibidas.</p></div>
+              <select class="select-inline" data-setting="region.dateFormat" id="dateFormatSelect">
+                <option value="DD/MM/YYYY">DD/MM/AAAA (31/12/2025)</option>
+                <option value="MM/DD/YYYY">MM/DD/AAAA (12/31/2025)</option>
+                <option value="YYYY-MM-DD">AAAA-MM-DD (2025-12-31)</option>
+              </select>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-row-body"><h4>Formato de hora</h4><p>Como os horários são exibidos.</p></div>
+              <select class="select-inline" data-setting="region.timeFormat" id="timeFormatSelect">
+                <option value="24h">24 horas (14:30)</option>
+                <option value="12h">12 horas (2:30 PM)</option>
+              </select>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-row-body"><h4>Moeda</h4><p>Moeda usada em preços e valores.</p></div>
+              <select class="select-inline" data-setting="region.currency" id="currencySelect">
+                <option value="BRL">Real brasileiro (R$)</option>
+                <option value="USD">Dólar americano (US$)</option>
+                <option value="EUR">Euro (€)</option>
+              </select>
+            </div>
+
+            <div class="region-preview" style="margin-top:18px">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
+              Prévia: <strong id="regionPreview">31/12/2025 · R$ 1.234,56</strong>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================== NOTIFICAÇÕES ==================== -->
+        <section class="settings-panel" data-panel="notificacoes">
+          <div class="panel-card">
+            <div class="panel-card-head">
+              <h2>Notificações no aplicativo</h2>
+              <p>Escolha quais tipos de avisos aparecem no sino.</p>
+            </div>
+            <div class="pref-list">
+              <div class="pref-item">
+                <div class="pref-body">
+                  <h4>Ativar notificações</h4>
+                  <p>Liga ou desliga todos os avisos.</p>
+                </div>
+                <label class="toggle"><input type="checkbox" data-setting
