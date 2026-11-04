@@ -212,3 +212,69 @@ input:focus, select:focus {
 
 /* ============ UTILITÁRIOS ============ */
 [hidden] { display: none !important; }
+
+/* ============================================================
+   EXTENDED APPEARANCE — regras por data-attribute
+   Aplicado por js/theme.js em todas as páginas
+   ============================================================ */
+
+/* Cor principal */
+:root[data-primary="red"]    { --accent: #e50914; --accent-hover: #f6121d; }
+:root[data-primary="blue"]   { --accent: #0a84ff; --accent-hover: #3395ff; }
+:root[data-primary="green"]  { --accent: #30d158; --accent-hover: #44d967; }
+:root[data-primary="purple"] { --accent: #bf5af2; --accent-hover: #c96ef5; }
+:root[data-primary="orange"] { --accent: #ff9f0a; --accent-hover: #ffad29; }
+:root[data-primary="teal"]   { --accent: #00c2a8; --accent-hover: #00d4b8; }
+
+/* Estilo dos cards */
+:root[data-card-style="sharp"] {
+  --radius: 6px;
+  --radius-sm: 4px;
+  --radius-lg: 10px;
+}
+:root[data-card-style="soft"] {
+  --radius: 22px;
+  --radius-sm: 16px;
+  --radius-lg: 32px;
+}
+
+/* Tamanho da fonte base */
+:root[data-font-size="sm"] { font-size: 13px; }
+:root[data-font-size="md"] { font-size: 14px; }
+:root[data-font-size="lg"] { font-size: 15.5px; }
+:root[data-font-size="xl"] { font-size: 17px; }
+
+/* Alto contraste */
+:root[data-contrast="high"] {
+  --border: rgba(255,255,255,.18);
+  --border-strong: rgba(255,255,255,.32);
+}
+:root[data-theme="light"][data-contrast="high"] {
+  --border: rgba(0,0,0,.18);
+  --border-strong: rgba(0,0,0,.32);
+}
+:root[data-contrast="high"] .input,
+:root[data-contrast="high"] .search,
+:root[data-contrast="high"] .form-field input,
+:root[data-contrast="high"] .form-field select,
+:root[data-contrast="high"] .select-inline,
+:root[data-contrast="high"] .input-prefix,
+:root[data-contrast="high"] .input-money,
+:root[data-contrast="high"] .select-wrap {
+  border-width: 1.5px;
+}
+
+/* Reduzir animações */
+:root[data-animations="off"] *,
+:root[data-animations="off"] *::before,
+:root[data-animations="off"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* Melhorar legibilidade */
+:root[data-readability="enhanced"] body {
+  line-height: 1.7;
+  letter-spacing: .012em;
+}
