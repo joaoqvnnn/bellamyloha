@@ -914,4 +914,130 @@
     });
 
     // Delegação na lista
-    $('#
+    $('#subsList').addEventListener('click', (e) => {
+      const card = e.target.closest('.sub-card');
+      if (!card) return;
+      const id = card.dataset.id;
+
+      // Ações por botão
+      const mainBtn = e.target.closest('[data-action]');
+      if (mainBtn) {
+        const action = mainBtn.dataset.action;
+        if (action === 'details') return openDetails(id);
+        if (action === 'renew')   return openRenew(id);
+        if (action === 'plan')    return openPlanChange(id);
+        if (action === 'more') {
+          const parent = mainBtn.closest('.dropdown');
+          const isOpen = parent.classList.toggle('is-open');
+          mainBtn.setAttribute('aria-expanded', String(isOpen));
+          e.stopPropagation();
+          return;
+        }
+      }
+
+      // Ações do dropdown
+      const subBtn = e.target.closest('[data-sub-action]');
+      if (subBtn) {
+        const a = subBtn.dataset.subAction;
+        if (a === 'cancel')     return openCancel(id);
+        if (a === 'reactivate') return openReactivate(id);
+      }
+    });
+
+    // Fechar dropdowns ao clicar fora
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.dropdown')) {
+        $$('.dropdown.is-open').forEach(d => d.classList.remove('is-open'));
+      }
+    });
+
+    // Fechar modais
+    $$('[data-close]').forEach(el => {
+      el.addEventListener('click', closeAllModals);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAllModals();
+    });
+
+    // Exportar
+    const exportBtn  = $('#exportBtn');
+    const exportMenu = $('#exportMenu');
+    exportBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const parent = exportBtn.closest('.dropdown');
+      const isOpen = parent.classList.toggle('is-open');
+      exportBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+    exportMenu.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-export]');
+      if (!btn) return;
+      exportBtn.closest('.dropdown').classList.remove('is-open');
+      exportBtn.setAttribute('aria-expanded', 'false');
+      const t = btn.dataset.export;
+      if (t === 'csv')  exportCSV();
+      else if (t === 'xlsx') exportXLSX();
+      else if (t === 'email') openEmailModal();
+    });
+
+    // Form e-mail
+    $('#emailForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = $('#emailExport');
+      const err   = $('#emailExportError');
+      const val   = input.value.trim();
+      err.textContent = '';
+      input.classList.remove('is-error');
+
+      if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(val)) {
+        err.textContent = 'Informe um e-mail válido.';
+        input.classList.add('is-error');
+        input.focus();
+        return;
+      }
+
+      $('#emailModal').hidden = true;
+      document.body.style.overflow = '';
+      toast(`Solicitação registrada. A planilha será enviada para ${val}.`, 'success');
+      input.value = '';
+    });
+
+    // Notificações
+    const notifBtn = $('#notifBtn');
+    notifBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const parent = notifBtn.closest('.dropdown');
+      const isOpen = parent.classList.toggle('is-open');
+      notifBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    $('#notifList').addEventListener('click', (e) => {
+      const item = e.target.closest('.notif-item');
+      if (!item) return;
+      const idx = parseInt(item.dataset.notifIndex, 10);
+      const n = SUB_NOTIFICATIONS[idx];
+      if (n) {
+        n.unread = false;
+        renderNotifications();
+        if (n.ref) openDetails(n.ref);
+      }
+      notifBtn.closest('.dropdown').classList.remove('is-open');
+      notifBtn.setAttribute('aria-expanded', 'false');
+    });
+
+    $('#notifMarkAll').addEventListener('click', (e) => {
+      e.stopPropagation();
+      SUB_NOTIFICATIONS.forEach(n => n.unread = false);
+      renderNotifications();
+    });
+  }
+
+  // ============ INIT ============
+  function init() {
+    renderSummary();
+    renderList();
+    renderNotifications();
+    bindEvents();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
