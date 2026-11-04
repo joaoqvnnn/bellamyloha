@@ -1,0 +1,183 @@
+/* ============================================================
+   LAYOUT — navbar, sidebar, app, responsivo
+   ============================================================ */
+
+/* ============ NAVBAR ============ */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--navbar-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  z-index: 100;
+}
+
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-toggle { display: none; }
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px;
+  border-radius: 8px;
+}
+.brand-mark {
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  background: var(--text);
+  color: var(--bg);
+  border-radius: 9px;
+  font-weight: 900;
+  font-size: 15px;
+  letter-spacing: -.5px;
+}
+.brand-name {
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: .26em;
+  color: var(--text);
+}
+
+/* Sol / lua */
+#themeToggle .ico-sun { display: none; }
+#themeToggle .ico-moon { display: block; }
+:root[data-theme="light"] #themeToggle .ico-sun { display: block; }
+:root[data-theme="light"] #themeToggle .ico-moon { display: none; }
+
+/* ============ APP ============ */
+.app {
+  display: flex;
+  padding-top: var(--navbar-h);
+  min-height: 100vh;
+}
+
+/* ============ SIDEBAR ============ */
+.sidebar {
+  position: fixed;
+  top: var(--navbar-h);
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-w);
+  padding: 18px 12px;
+  overflow-y: auto;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  z-index: 50;
+  transition: transform .3s var(--ease);
+}
+
+.nav-group { display: flex; flex-direction: column; gap: 2px; margin-bottom: 22px; }
+.nav-title {
+  padding: 6px 12px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  color: var(--text-muted);
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: background .15s, color .15s;
+}
+.nav-item:hover { background: var(--surface-hover); color: var(--text); }
+.nav-item.is-active {
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 600;
+}
+.nav-item.is-active svg { color: var(--accent); }
+
+/* Overlay mobile */
+.overlay {
+  position: fixed;
+  inset: var(--navbar-h) 0 0 0;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .2s, visibility .2s;
+  z-index: 40;
+}
+body.sidebar-open .overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ============ MAIN ============ */
+.main {
+  flex: 1;
+  min-width: 0;
+  margin-left: var(--sidebar-w);
+  padding: 30px 32px 60px;
+}
+
+.page { max-width: 1320px; margin: 0 auto; }
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+}
+
+.page-header h1 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  margin-bottom: 4px;
+}
+
+.page-sub {
+  color: var(--text-muted);
+  font-size: 13.5px;
+}
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ============ RESPONSIVO ============ */
+@media (max-width: 960px) {
+  .nav-toggle { display: inline-flex; }
+
+  .sidebar {
+    transform: translateX(-100%);
+    box-shadow: var(--shadow);
+  }
+  body.sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  .main { margin-left: 0; padding: 22px 18px 50px; }
+}
+
+@media (max-width: 560px) {
+  .navbar { padding: 0 12px; }
+  .brand-name { display: none; }
+  .page-header h1 { font-size: 22px; }
+  .main { padding: 20px 14px 40px; }
+}
