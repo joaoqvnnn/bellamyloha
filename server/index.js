@@ -38,6 +38,8 @@ const db = {
   transactions: {},
   conversations: {},  // conversationId -> { userId, messages, mode, transferAt }
   tickets: {},        // ticketCode -> { ... }
+  orders: {},         // orderId -> { userId, items, amount, status, screens, ... }
+  screens: {},        // userId -> [{ id, productId, credentials, password, deliveredAt }]
 };
 
 function ensureWallet(userId) {
@@ -310,6 +312,107 @@ app.post('/api/wallet/webhook', async (req, res) => {
 app.get('/api/wallet', (req, res) => {
   const userId = req.user?.id || 'demo-user';
   res.json(ensureWallet(userId));
+});
+
+// ========================================================================
+// ============================ CHECKOUT PIX ==============================
+// ========================================================================
+
+// POST /api/checkout/pix — cria cobrança PIX para um pedido
+app.post('/api/checkout/pix', async (req, res) => {
+  try {
+    const { amount, items, email } = req.body;
+    const userId = req.user?.id || 'demo-user';
+
+    if (!amount || amount < 1) return res.status(400).json({ error: 'Valor inválido.' });
+    if (!Array.isArray(items) || items.length === 0) return res.status(400).json({ error: 'Carrinho vazio.' });
+
+    // Cria cobrança PIX no Mercado Pago
+    const result = await paymentClient.create({
+      body: {
+        transaction_amount: Number(amount),
+        description: `Pedido STREAMLY — ${items.length} item(ns)`,
+        payment_method_id: 'pix',
+        payer: { email },
+        external_reference: userId,
+        notification_url: `${process.env.BASE_URL}/api/checkout/webhook`,
+      },
+      requestOptions: { idempotencyKey: `order-${userId}-${Date.now()}` },
+    });
+
+    const tx = result.point_of_interaction?.transaction_data || {};
+
+    // Registra pedido
+    db.orders[String(result.id)] = {
+      id: String(result.id),
+      userId,
+      email,
+      items,
+      amount: Number(amount),
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+    };
+
+    res.json({
+      id: String(result.id),
+      status: 'pending',
+      amount: Number(amount),
+      qr_code_base64: tx.qr_code_base64,
+      qr_code: tx.qr_code,
+      expires_at: result.date_of_expiration || new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+    });
+  } catch (err) {
+    console.error('[checkout/pix]', err);
+    res.status(500).json({ error: 'Falha ao gerar cobrança.' });
+  }
+});
+
+// GET /api/checkout/pix/:id — verifica status
+app.get('/api/checkout/pix/:id', (req, res) => {
+  const order = db.orders[req.params.id];
+  if (!order) return res.status(404).json({ error: 'Pedido não encontrado.' });
+  res.json({ id: order.id, status: order.status });
+});
+
+// POST /api/checkout/webhook — recebe confirmação do Mercado Pago
+app.post('/api/checkout/webhook', async (req, res) => {
+  res.sendStatus(200);
+  try {
+    const paymentId = req.query['data.id'] || req.body?.data?.id;
+    if (!paymentId) return;
+
+    const payment = await paymentClient.get({ id: paymentId });
+    const order = db.orders[String(paymentId)];
+    if (!order) return;
+
+    if (payment.status === 'approved' && order.status !== 'approved') {
+      order.status = 'approved';
+      order.approvedAt = new Date().toISOString();
+
+      // ============================================
+      // ENTREGA AUTOMÁTICA
+      // 1. Gera/atribui credenciais de tela
+      // 2. (TODO) envia e-mail com as credenciais
+      // 3. Cria registro em "minhas telas" (db.screens)
+      // 4. (TODO) atualiza "meus pedidos"
+      // ============================================
+      order.screens = order.items.map(item => ({
+        id: 'TL-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+        productId: item.productId,
+        credentials: 'usuario' + Math.floor(Math.random() * 9999) + '@streamly.vip',
+        password: 'senha' + Math.floor(Math.random() * 99999),
+        deliveredAt: new Date().toISOString(),
+      }));
+
+      // Insere em db.screens[userId] para aparecer em "Minhas telas"
+      if (!db.screens[order.userId]) db.screens[order.userId] = [];
+      db.screens[order.userId].push(...order.screens);
+
+      // TODO: enviar e-mail com as credenciais para order.email
+    }
+  } catch (err) {
+    console.error('[checkout/webhook]', err);
+  }
 });
 
 // ---------- Start ----------
