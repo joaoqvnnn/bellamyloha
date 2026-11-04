@@ -964,4 +964,14 @@
     });
   }
 
-  // ============ INIT =
+  // ============ INIT ============
+  function init() {
+    renderSummary();
+    renderList();
+    renderNotifications();
+    updateDateTag();
+    bindEvents();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
