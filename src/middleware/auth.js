@@ -3,7 +3,7 @@ const { verify } = require('../lib/jwt');
 
 /**
  * requireAuth: exige um Bearer token válido e um usuário ativo.
- * Popula req.user com { id, email, name, role }.
+ * Popula req.user com { id, email, name, role, status }.
  */
 async function requireAuth(req, res, next) {
   try {
@@ -15,7 +15,7 @@ async function requireAuth(req, res, next) {
     const payload = verify(token);
     const user = await prisma.user.findUnique({
       where: { id: payload.sub },
-      select: { id: true, email: true, name: true, status: true },
+      select: { id: true, email: true, name: true, role: true, status: true },
     });
     if (!user) return res.status(401).json({ error: 'Sessão inválida.' });
     if (user.status !== 'ativa') {
@@ -39,7 +39,7 @@ async function optionalAuth(req, res, next) {
       const payload = verify(token);
       const user = await prisma.user.findUnique({
         where: { id: payload.sub },
-        select: { id: true, email: true, name: true, status: true },
+        select: { id: true, email: true, name: true, role: true, status: true },
       });
       if (user && user.status === 'ativa') req.user = user;
     }
