@@ -4,12 +4,12 @@ const crypto = require('crypto');
 const prisma = require('../lib/prisma');
 const { requireAuth } = require('../middleware/auth');
 const { chatLimiter } = require('../middleware/rateLimit');
-const { SYSTEM_PROMPT } = require('../openai-prompt');
+const { SYSTEM_PROMPT, sanitizeResponse, shouldForceTransfer } = require('../openai-prompt');
 
 const router = express.Router();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// POST /api/support/chat (SSE streaming)
+// POST /api/support/chat (SSE)
 router.post('/chat', requireAuth, chatLimiter, async (req, res) => {
   const { messages = [], contextOrder, conversationId } = req.body || {};
   if (!Array.isArray(messages) || !messages.length) {
@@ -47,6 +47,9 @@ router.post('/chat', requireAuth, chatLimiter, async (req, res) => {
     let fullText = '';
     let transfer = false;
 
+    // ⚠️ BUFFERED: NÃO enviamos chunks durante o stream.
+    // Só acumulamos e sanitizamos no final — evita vazar dado
+    // sensível que apareceria "aos pedaços" antes da sanitização.
     for await (const chunk of stream) {
       const delta = chunk.choices?.[0]?.delta?.content;
       if (!delta) continue;
@@ -57,11 +60,24 @@ router.post('/chat', requireAuth, chatLimiter, async (req, res) => {
         send({ type: 'meta', transfer: true });
         fullText = fullText.replace('[TRANSFER]', '');
       }
-      const visible = transfer ? fullText.replace(/^\[TRANSFER\]\s*/, '') : fullText;
-      send({ type: 'chunk', text: visible });
     }
 
-    // Persiste
+    // ---------- Sanitização final ----------
+    const safeText = sanitizeResponse(fullText.replace(/^\[TRANSFER\]\s*/, ''));
+
+    // Pega a ÚLTIMA mensagem do usuário (não a última do array)
+    const lastUserMsg = [...cleanMessages].reverse().find(m => m.role === 'user')?.content || '';
+
+    const forceTransfer = shouldForceTransfer(lastUserMsg, safeText);
+    if (forceTransfer && !transfer) {
+      transfer = true;
+      send({ type: 'meta', transfer: true, forced: true });
+    }
+
+    // Só agora o frontend recebe o texto (único chunk, já sanitizado)
+    send({ type: 'chunk', text: safeText });
+
+    // ---------- Persistência ----------
     let conv = await prisma.supportConversation.findFirst({
       where: { code: conversationId, userId: req.user.id },
     });
@@ -84,7 +100,7 @@ router.post('/chat', requireAuth, chatLimiter, async (req, res) => {
       })).concat([{
         conversationId: conv.id,
         from: 'ai',
-        text: fullText.replace(/^\[TRANSFER\]\s*/, ''),
+        text: safeText, // salva a versão sanitizada, não a crua
       }]),
     });
 
