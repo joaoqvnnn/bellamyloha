@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
+  <title>Catálogo — STREAMLY</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/minhas-telas.css" />
+  <link rel="stylesheet" href="css/meus-pedidos.css" />
+  <link rel="stylesheet" href="css/assinaturas.css" />
+  <link rel="stylesheet" href="css/carteira.css" />
+  <link rel="stylesheet" href="css/historico.css" />
+  <link rel="stylesheet" href="css/perfil.css" />
+  <link rel="stylesheet" href="css/configuracoes.css" />
+  <link rel="stylesheet" href="css/suporte.css" />
+  <link rel="stylesheet" href="css/catalogo.css" />
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <button class="icon-btn nav-toggle" id="navToggle" aria-label="Abrir menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a href="index.html" class="brand"><span class="brand-mark">S</span><span class="brand-name">STREAMLY</span></a>
+    </div>
+
+    <div class="navbar-right">
+      <button class="icon-btn" id="themeToggle" aria-label="Alternar tema">
+        <svg class="ico-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>
+        <svg class="ico-moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+      </button>
+
+      <div class="dropdown">
+        <button class="icon-btn badge-wrap" id="notifBtn" aria-label="Notificações" aria-haspopup="true" aria-expanded="false">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.5 21a2 2 0 0 0 3 0"/></svg>
+          <span class="badge" id="notifBadge">2</span>
+        </button>
+        <div class="dropdown-menu notif-menu" id="notifDropdown" role="menu">
+          <div class="notif-head"><strong>Notificações</strong><button class="notif-mark" id="notifMarkAll">Marcar todas</button></div>
+          <div class="notif-list" id="notifList"></div>
+        </div>
+      </div>
+
+      <button class="icon-btn badge-wrap" id="cartBtn" aria-label="Carrinho" title="Carrinho">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2.5 3.5h3l2.2 11h10.5l2-8H6"/></svg>
+        <span class="badge" id="cartBadge" style="display:none">0</span>
+      </button>
+
+      <a href="carteira.html" class="icon-btn" aria-label="Carteira" title="Carteira">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h11A2.5 2.5 0 0 1 19 7.5v1H5.5A2.5 2.5 0 0 0 3 11v6a2.5 2.5 0 0 0 2.5 2.5h13A2.5 2.5 0 0 0 21 17V9.5A2.5 2.5 0 0 0 18.5 7"/><circle cx="16.5" cy="13" r="1.4"/></svg>
+      </a>
+
+      <div class="dropdown">
+        <button class="icon-btn" id="menuBtn" aria-label="Mais opções" aria-haspopup="true" aria-expanded="false">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5.5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="18.5" r="1.6"/></svg>
+        </button>
+        <div class="dropdown-menu" id="menuDropdown" role="menu">
+          <button role="menuitem">Meu perfil</button>
+          <button role="menuitem">Configurações</button>
+          <button role="menuitem">Suporte</button>
+          <hr />
+          <button role="menuitem" class="danger">Sair</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== APP ===================== -->
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <nav class="nav-group">
+        <span class="nav-title">Loja</span>
+        <a href="catalogo.html" class="nav-item is-active">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Catálogo</span>
+        </a>
+        <a href="inicio.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20Z"/><path d="M9 21.5V13h6v8.5"/></svg>
+          <span>Página inicial</span>
+        </a>
+        <a href="index.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span>Minhas telas</span>
+        </a>
+        <a href="meus-pedidos.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h14a1.5 1.5 0 0 1 1.5 1.5v16L17 19l-2.5 2-2.5-2-2.5 2-2.5-2L3.5 21V5A1.5 1.5 0 0 1 5 3.5Z"/><path d="M8 8.5h8M8 12.5h6"/></svg>
+          <span>Meus pedidos</span>
+        </a>
+        <a href="assinaturas.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.5 0 4.8 1 6.5 2.7"/><path d="M21 4v5h-5"/></svg>
+          <span>Assinaturas</span>
+        </a>
+        <a href="carteira.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h11A2.5 2.5 0 0 1 19 7.5v1H5.5A2.5 2.5 0 0 0 3 11v6a2.5 2.5 0 0 0 2.5 2.5h13A2.5 2.5 0 0 0 21 17V9.5A2.5 2.5 0 0 0 18.5 7"/><circle cx="16.5" cy="13" r="1.4"/></svg>
+          <span>Carteira</span>
+        </a>
+        <a href="historico.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3.5 2"/></svg>
+          <span>Histórico</span>
+        </a>
+      </nav>
+      <nav class="nav-group">
+        <span class="nav-title">Minha conta</span>
+        <a href="perfil.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.2 20.5a8 8 0 0 1 15.6 0"/></svg>
+          <span>Perfil</span>
+        </a>
+        <a href="configuracoes.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+          <span>Configurações</span>
+        </a>
+        <a href="suporte.html" class="nav-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-3a8 8 0 0 1 16 0v3"/><path d="M4 14a2 2 0 0 0 2 2h1v-5H6a2 2 0 0 0-2 2Z"/><path d="M20 14a2 2 0 0 1-2 2h-1v-5h1a2 2 0 0 1 2 2Z"/><path d="M20 16v1.5A3.5 3.5 0 0 1 16.5 21H13"/></svg>
+          <span>Suporte</span>
+        </a>
+      </nav>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main">
+      <!-- ==================== VIEW: CATÁLOGO ==================== -->
+      <div class="view" id="viewCatalog">
+        <div class="page">
+
+          <!-- Banner carrossel -->
+          <section class="banner-carousel" id="bannerCarousel" aria-label="Promoções">
+            <div class="banner-track" id="bannerTrack"></div>
+            <button class="banner-arrow banner-prev" id="bannerPrev" aria-label="Anterior">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+            </button>
+            <button class="banner-arrow banner-next" id="bannerNext" aria-label="Próximo">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+            </button>
+            <div class="banner-dots" id="bannerDots"></div>
+          </section>
+
+          <!-- Cabeçalho da seção -->
+          <header class="catalog-head">
+            <div>
+              <h1>Catálogo</h1>
+              <p class="catalog-sub"><span id="catalogCount">0</span> produtos disponíveis</p>
+            </div>
+          </header>
+
+          <!-- Categorias -->
+          <section class="category-strip" id="categoryStrip" aria-label="Categorias"></section>
+
+          <!-- Barra de ferramentas -->
+          <section class="catalog-toolbar">
+            <div class="search">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input id="searchInput" type="search" placeholder="Pesquisar por produto ou plataforma" />
+            </div>
+
+            <div class="toolbar-buttons">
+              <button class="btn btn-ghost" id="filterBtn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M6 12h12M10 19h4"/></svg>
+                <span>Filtros</span>
+                <span class="filter-count" id="filterCount" hidden>0</span>
+              </button>
+
+              <div class="select-wrap">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+                <select id="sortSelect">
+                  <option value="relevance">Relevância</option>
+                  <option value="price-asc">Menor preço</option>
+                  <option value="price-desc">Maior preço</option>
+                  <option value="sales-desc">Mais vendidos</option>
+                  <option value="rating-desc">Melhor avaliados</option>
+                  <option value="newest">Novidades</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <!-- Chips de filtros ativos -->
+          <div class="active-filters" id="activeFilters" hidden></div>
+
+          <!-- Grid -->
+          <section class="product-grid" id="productGrid"></section>
+
+          <!-- Estado vazio -->
+          <section class="empty-state" id="emptyCatalog" hidden>
+            <div class="empty-icon">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </div>
+            <h2>Nenhum produto encontrado</h2>
+            <p>Tente ajustar a busca ou os filtros.</p>
+            <button class="btn btn-primary" id="clearFiltersBtn">Limpar filtros</button>
+          </section>
+
+          <!-- Paginação -->
+          <nav class="pagination" id="pagination" aria-label="Paginação"></nav>
+
+        </div>
+      </div>
+
+      <!-- ==================== VIEW: PRODUTO ==================== -->
+      <div class="view" id="viewProduct" hidden>
+        <div class="page">
+
+          <!-- Breadcrumb -->
+          <nav class="breadcrumb" id="breadcrumb" aria-label="Navegação">
+            <a href="#" data-bc="catalog">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+              Catálogo
+            </a>
+            <span class="bc-sep">/</span>
+            <span id="bcCategory">—</span>
+            <span class="bc-sep">/</span>
+            <span id="bcProduct" class="bc-current">—</span>
+          </nav>
+
+          <!-- Detalhe do produto -->
+          <section class="product-detail" id="productDetail"></section>
+
+          <!-- Avaliações -->
+          <section class="reviews-section" id="reviewsSection"></section>
+
+          <!-- Similares -->
+          <section class="similar-section" id="similarSection"></section>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ===================== BOTTOM NAV MOBILE ===================== -->
+  <nav class="bottom-nav" id="bottomNav" aria-label="Navegação inferior">
+    <a href="inicio.html" class="bn-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20Z"/><path d="M9 21.5V13h6v8.5"/></svg>
+      <span>Início</span>
+    </a>
+    <a href="catalogo.html" class="bn-item is-active">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span>Catálogo</span>
+    </a>
+    <button class="bn-item" id="bnCart" aria-label="Carrinho">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2.5 3.5h3l2.2 11h10.5l2-8H6"/></svg>
+      <span>Carrinho</span>
+      <span class="bn-badge" id="bnCartBadge" style="display:none">0</span>
+    </button>
+    <a href="perfil.html" class="bn-item">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.2 20.5a8 8 0 0 1 15.6 0"/></svg>
+      <span>Conta</span>
+    </a>
+  </nav>
+
+  <!-- ===================== CART DRAWER ===================== -->
+  <div class="cart-overlay" id="cartOverlay" hidden></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Carrinho">
+    <header class="cart-header">
+      <h2>Carrinho <span id="cartCount">(0)</span></h2>
+      <button class="icon-btn" id="cartClose" aria-label="Fechar carrinho">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </header>
+
+    <div class="cart-items" id="cartItems"></div>
+
+    <div class="cart-empty" id="cartEmpty" hidden>
+      <div class="cart-empty-icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2.5 3.5h3l2.2 11h10.5l2-8H6"/></svg>
+      </div>
+      <h3>Seu carrinho está vazio</h3>
+      <p>Adicione produtos do catálogo para continuar.</p>
+      <button class="btn btn-primary" id="cartEmptyBtn">Explorar produtos</button>
+    </div>
+
+    <footer class="cart-footer" id="cartFooter" hidden>
+      <div class="cart-totals">
+        <div class="ct-row"><span>Subtotal</span><strong id="cartSubtotal">R$ 0,00</strong></div>
+        <div class="ct-row" id="cartDiscountRow" hidden><span>Descontos</span><strong class="discount" id="cartDiscount">− R$ 0,00</strong></div>
+        <div class="ct-row ct-total"><span>Total</span><strong id="cartTotal">R$ 0,00</strong></div>
+      </div>
+      <button class="btn btn-primary cart-checkout" id="checkoutBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10" width="15" height="10.5" rx="2.6"/><path d="M8.2 10V7.6a3.8 3.8 0 0 1 7.6 0V10"/></svg>
+        Finalizar compra
+      </button>
+      <button class="btn btn-ghost cart-continue" id="continueBtn">Continuar comprando</button>
+      <p class="cart-secure">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10" width="15" height="10.5" rx="2.6"/><path d="M8.2 10V7.6a3.8 3.8 0 0 1 7.6 0V10"/></svg>
+        Pagamento processado via Mercado Pago
+      </p>
+    </footer>
+  </aside>
+
+  <!-- ===================== MODAL: FILTROS ===================== -->
+  <div class="modal" id="filterModal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel modal-filters" role="dialog" aria-modal="true">
+      <button class="modal-close" data-close aria-label="Fechar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+      <div class="modal-body">
+        <h2 class="modal-title">Filtros</h2>
+
+        <div class="filter-group">
+          <h3>Categoria</h3>
+          <div class="filter-options" id="filterCategories"></div>
+        </div>
+
+        <div class="filter-group">
+          <h3>Tipo de entrega</h3>
+          <div class="filter-options" id="filterDelivery">
+            <label class="filter-check"><input type="checkbox" value="auto" data-filter-delivery><span class="fc-box"></span><span class="fc-label">Entrega automática</span><span class="fc-hint">Até 5 min</span></label>
+            <label class="filter-check"><input type="checkbox" value="manual" data-filter-delivery><span class="fc-box"></span><span class="fc-label">Entrega manual</span><span class="fc-hint">Até 2h úteis</span></label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3>Disponibilidade</h3>
+          <div class="filter-options">
+            <label class="filter-check"><input type="checkbox" id="filterInStock" /><span class="fc-box"></span><span class="fc-label">Apenas com estoque</span></label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3>Faixa de preço</h3>
+          <div class="price-range">
+            <div class="price-range-input">
+              <span>R$</span>
+              <input type="number" id="priceMin" placeholder="0" min="0" />
+            </div>
+            <span class="price-range-sep">até</span>
+            <div class="price-range-input">
+              <span>R$</span>
+              <input type="number" id="priceMax" placeholder="500" min="0" />
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3>Avaliação</h3>
+          <div class="filter-options">
+            <label class="filter-check"><input type="radio" name="filter-rating" value="4" data-filter-rating /><span class="fc-box fc-radio"></span><span class="fc-label">4 estrelas ou mais</span></label>
+            <label class="filter-check"><input type="radio" name="filter-rating" value="4.5" data-filter-rating /><span class="fc-box fc-radio"></span><span class="fc-label">4.5 estrelas ou mais</span></label>
+            <label class="filter-check"><input type="radio" name="filter-rating" value="0" data-filter-rating checked /><span class="fc-box fc-radio"></span><span class="fc-label">Todas</span></label>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-ghost" id="clearFilterModal">Limpar</button>
+          <button class="btn btn-primary" id="applyFilters">Aplicar filtros</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== CHECKOUT MODAL ===================== -->
+  <div class="modal" id="checkoutModal" hidden>
+    <div class="modal-backdrop" data-close-checkout></div>
+    <div class="modal-panel modal-checkout" role="dialog" aria-modal="true">
+      <button class="modal-close" data-close-checkout aria-label="Fechar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+
+      <div class="checkout-steps" id="checkoutSteps">
+        <div class="chk-step is-active" data-step="1"><span>1</span><label>E-mail</label></div>
+        <div class="chk-step" data-step="2"><span>2</span><label>Pagamento</label></div>
+        <div class="chk-step" data-step="3"><span>3</span><label>Revisão</label></div>
+        <div class="chk-step" data-step="4"><span>4</span><label>Conclusão</label></div>
+      </div>
+
+      <div class="checkout-body" id="checkoutBody"></div>
+    </div>
+  </div>
+
+  <!-- ===================== TOASTS ===================== -->
+  <div class="toast-stack" id="toastStack"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="js/catalogo-data.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/catalogo.js"></script>
+</body>
+</html>
