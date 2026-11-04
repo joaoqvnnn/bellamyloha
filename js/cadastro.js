@@ -2,9 +2,11 @@
    CADASTRO — validação + envio real para o backend
    ============================================================ */
 
+// ⚠️ Deve vir ANTES do IIFE (ele lê essa variável na inicialização)
+window.STREAMLY_API_BASE = 'https://streamly-backend.onrender.com/api';
+
 (function () {
   // ============ CONFIG ============
-  // Troque para sua URL de backend no Render:
   const API_BASE = window.STREAMLY_API_BASE || '/api';
 
   // ============ HELPERS ============
@@ -174,32 +176,27 @@
 
     let primeiroErro = null;
 
-    // Nome
     const vName = name.value.trim();
     if (vName.length < 3 || !vName.includes(' ')) {
       setEstado(name, 'error', 'Digite seu nome completo.');
       primeiroErro = primeiroErro || name;
     } else setEstado(name, 'ok', '');
 
-    // CPF
     if (!cpfValido(cpf.value)) {
       setEstado(cpf, 'error', cpf.value ? 'CPF inválido.' : 'Informe seu CPF.');
       primeiroErro = primeiroErro || cpf;
     } else setEstado(cpf, 'ok', 'CPF válido.');
 
-    // Telefone
     if (!telValido(phone.value)) {
       setEstado(phone, 'error', 'Informe um telefone válido.');
       primeiroErro = primeiroErro || phone;
     } else setEstado(phone, 'ok', '');
 
-    // E-mail
     if (!emailValido(email.value)) {
       setEstado(email, 'error', 'Informe um e-mail válido.');
       primeiroErro = primeiroErro || email;
     } else setEstado(email, 'ok', '');
 
-    // Senha
     if (password.value.length < 8) {
       setEstado(password, 'error', 'A senha precisa ter ao menos 8 caracteres.');
       primeiroErro = primeiroErro || password;
@@ -208,13 +205,11 @@
       primeiroErro = primeiroErro || password;
     } else setEstado(password, 'ok', '');
 
-    // Confirmar
     if (confirm.value !== password.value || !confirm.value) {
       setEstado(confirm, 'error', 'As senhas não coincidem.');
       primeiroErro = primeiroErro || confirm;
     } else setEstado(confirm, 'ok', '');
 
-    // Termos
     if (!terms.checked) {
       primeiroErro = primeiroErro || terms;
       terms.closest('.auth-check').style.color = '#e5484d';
@@ -250,7 +245,6 @@
         throw new Error(data.error || 'Não foi possível criar a conta.');
       }
 
-      // Sucesso: mostra tela de "verifique seu e-mail"
       renderSuccessScreen(email.value.trim().toLowerCase(), data.resendIn || 60);
 
     } catch (err) {
@@ -313,7 +307,6 @@
       </div>
     `;
 
-    // Timer de reenvio
     let seconds = resendIn;
     const resendBtn = $('#resendBtn');
     const timerEl = $('#resendTimer');
@@ -338,7 +331,6 @@
         });
         if (!res.ok) throw new Error();
         toast('E-mail reenviado. Verifique sua caixa de entrada.', 'success');
-        // Reinicia timer
         seconds = 60;
         resendBtn.innerHTML = `Reenviar e-mail (<span id="resendTimer">${seconds}</span>s)`;
         resendBtn.disabled = true;
