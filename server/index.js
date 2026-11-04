@@ -235,11 +235,16 @@ app.get('/api/support/tickets', (req, res) => {
 
 app.post('/api/wallet/charge', async (req, res) => {
   try {
-    const { amount } = req.body;
+    const { amount, bonus = 0, total } = req.body;
     const userId = req.user?.id || 'demo-user';
     if (!amount || amount < 10 || amount > 5000) {
       return res.status(400).json({ error: 'Valor inválido.' });
     }
+
+    const bonusNum = Number(bonus) || 0;
+    const totalNum = Number(total) || (Number(amount) + bonusNum);
+
+    // O Mercado Pago cobra só o `amount` (bônus é por conta da loja)
     const result = await paymentClient.create({
       body: {
         transaction_amount: Number(amount),
@@ -252,12 +257,21 @@ app.post('/api/wallet/charge', async (req, res) => {
       requestOptions: { idempotencyKey: `${userId}-${Date.now()}` },
     });
     const tx = result.point_of_interaction?.transaction_data || {};
-    db.charges[String(result.id)] = { id: String(result.id), userId, amount: Number(amount), status: 'pending' };
+    db.charges[String(result.id)] = {
+      id: String(result.id),
+      userId,
+      amount: Number(amount),
+      bonus: bonusNum,
+      total: totalNum,
+      status: 'pending',
+    };
     ensureWallet(userId).pending += Number(amount);
     res.json({
       id: String(result.id),
       status: result.status,
       amount: Number(amount),
+      bonus: bonusNum,
+      total: totalNum,
       qr_code_base64: tx.qr_code_base64,
       qr_code: tx.qr_code,
       expires_at: result.date_of_expiration || new Date(Date.now() + 30 * 60 * 1000).toISOString(),
@@ -287,15 +301,18 @@ app.post('/api/wallet/webhook', async (req, res) => {
 
     if (payment.status === 'approved' && charge.status !== 'approved') {
       const wallet = ensureWallet(userId);
+      const totalToCredit = charge.total || (charge.amount + (charge.bonus || 0));
+
       wallet.pending = Math.max(0, wallet.pending - charge.amount);
-      wallet.balance += charge.amount;
-      wallet.totalCredits += charge.amount;
+      wallet.balance += totalToCredit;
+      wallet.totalCredits += totalToCredit;
+
       db.transactions[userId].unshift({
         id: 'MOV-' + Date.now(),
         type: 'entrada',
         category: 'recarga',
-        description: 'Recarga via PIX',
-        value: charge.amount,
+        description: `Recarga via PIX${charge.bonus > 0 ? ` (+${charge.bonus.toFixed(2)} bônus)` : ''}`,
+        value: totalToCredit,
         date: new Date().toISOString(),
         paymentMethod: 'PIX · Mercado Pago',
         status: 'aprovado',
