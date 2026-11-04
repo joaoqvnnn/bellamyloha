@@ -1,0 +1,326 @@
+/* ============================================================
+   CADASTRO — autenticação centralizada
+   ============================================================ */
+
+.auth-body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background:
+    radial-gradient(900px 480px at 50% -10%, rgba(229,9,20,.10), transparent 65%),
+    radial-gradient(700px 420px at 100% 110%, rgba(255,255,255,.045), transparent 60%),
+    var(--bg);
+}
+
+.auth-shell {
+  width: 100%;
+  max-width: 470px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 26px;
+  padding: 4px;
+}
+.auth-brand .brand-mark {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  background: var(--text);
+  color: var(--bg);
+  display: grid; place-items: center;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: -.5px;
+}
+.auth-brand .brand-name {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .28em;
+  color: var(--text);
+}
+
+.auth-card {
+  width: 100%;
+  background: linear-gradient(180deg, #121217 0%, #0b0b0e 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 34px 30px 28px;
+  box-shadow:
+    0 40px 90px -30px rgba(0,0,0,.95),
+    0 0 0 1px rgba(255,255,255,.015) inset,
+    0 1px 0 rgba(255,255,255,.05) inset;
+}
+
+/* ============ STEPS ============ */
+.auth-steps {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 26px;
+}
+.auth-step { display: flex; align-items: center; gap: 7px; }
+.auth-step .as-dot {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 700;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  background: rgba(255,255,255,.02);
+  transition: .25s;
+}
+.auth-step .as-label {
+  font-size: 11.5px; font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.auth-step.is-active .as-dot {
+  background: #fff; color: #0a0a0c; border-color: #fff;
+  box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+}
+.auth-step.is-active .as-label { color: var(--text); }
+.auth-steps .as-bar {
+  flex: 1; height: 1px;
+  background: var(--border);
+  border-radius: 2px;
+}
+
+/* ============ TITLE ============ */
+.auth-card h1 {
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  margin-bottom: 6px;
+}
+.auth-sub {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* ============ NOTICE ============ */
+.auth-notice {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  padding: 13px 14px;
+  border-radius: 13px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.028);
+  margin-bottom: 24px;
+}
+.auth-notice svg { flex: none; color: #cfcfd8; margin-top: 1px; }
+.auth-notice p {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #a9a9b4;
+}
+.auth-notice strong { color: #fff; font-weight: 600; }
+
+/* ============ FIELDS ============ */
+.field { margin-bottom: 15px; }
+.field > label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 7px;
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  height: 50px;
+  padding: 0 14px;
+  border-radius: 13px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.028);
+  transition: border-color .18s, background .18s, box-shadow .18s;
+}
+.input:focus-within {
+  border-color: rgba(255,255,255,.30);
+  background: rgba(255,255,255,.06);
+  box-shadow: 0 0 0 4px rgba(255,255,255,.045);
+}
+.input > svg { flex: none; color: var(--text-muted); transition: color .18s; }
+.input:focus-within > svg { color: #fff; }
+
+.input input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 14.5px;
+  font-family: inherit;
+}
+.input input::placeholder { color: #53535c; }
+
+.eye {
+  flex: none;
+  display: grid; place-items: center;
+  width: 30px; height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: .18s;
+}
+.eye:hover { color: #fff; background: rgba(255,255,255,.07); }
+
+.ok-mark {
+  flex: none;
+  color: var(--ok);
+  opacity: 0;
+  transform: scale(.6);
+  transition: .2s;
+}
+
+.msg {
+  display: block;
+  min-height: 15px;
+  font-size: 11.5px;
+  margin-top: 6px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.msg.error { color: var(--err); }
+.msg.ok { color: var(--ok); }
+
+.field.error .input {
+  border-color: rgba(229,72,77,.55);
+  background: rgba(229,72,77,.05);
+}
+.field.error .input > svg { color: var(--err); }
+.field.ok .input { border-color: rgba(62,207,142,.32); }
+.field.ok .ok-mark { opacity: 1; transform: scale(1); }
+
+/* ============ STRENGTH ============ */
+.strength {
+  display: flex;
+  gap: 6px;
+  margin-top: 9px;
+}
+.strength i {
+  flex: 1;
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.08);
+  transition: background .3s;
+}
+.strength[data-level="1"] i:nth-child(-n+1) { background: var(--err); }
+.strength[data-level="2"] i:nth-child(-n+2) { background: var(--warn); }
+.strength[data-level="3"] i:nth-child(-n+3) { background: #9bc46a; }
+.strength[data-level="4"] i:nth-child(-n+4) { background: var(--ok); }
+
+/* ============ TERMOS ============ */
+.auth-check {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  margin: 20px 0 22px;
+  cursor: pointer;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  user-select: none;
+}
+.auth-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.auth-check .ac-box {
+  flex: none;
+  width: 18px; height: 18px;
+  margin-top: 1px;
+  border-radius: 5px;
+  border: 1px solid var(--border-strong);
+  background: rgba(255,255,255,.03);
+  display: grid; place-items: center;
+  transition: .18s;
+}
+.auth-check .ac-box svg { opacity: 0; transform: scale(.5); transition: .18s; color: #0a0a0c; }
+.auth-check input:checked + .ac-box {
+  background: #fff;
+  border-color: #fff;
+  box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+}
+.auth-check input:checked + .ac-box svg { opacity: 1; transform: scale(1); }
+.auth-check a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,.28);
+  transition: border-color .18s;
+}
+.auth-check a:hover { border-color: #fff; }
+
+/* ============ BOTÃO ============ */
+.auth-submit {
+  width: 100%;
+  height: 52px;
+  border: 0;
+  border-radius: 13px;
+  background: #fff;
+  color: #0a0a0c;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  cursor: pointer;
+  transition: transform .16s, background .16s, box-shadow .16s;
+  box-shadow: 0 14px 34px -14px rgba(255,255,255,.35);
+}
+.auth-submit:hover { background: #eaeaef; transform: translateY(-1px); }
+.auth-submit:active { transform: translateY(0); }
+.auth-submit:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+
+/* ============ FOOTER ============ */
+.auth-footer {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.auth-footer a {
+  color: #d8d8de;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255,255,255,.18);
+  transition: color .15s, border-color .15s;
+}
+.auth-footer a:hover { color: #fff; border-color: #fff; }
+.af-sep { color: var(--text-dim); }
+
+.auth-legal {
+  margin-top: 22px;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+/* ============ RESPONSIVO ============ */
+@media (max-width: 420px) {
+  .auth-card { padding: 28px 20px 24px; border-radius: 16px; }
+  .auth-card h1 { font-size: 22px; }
+  .auth-step .as-label { display: none; }
+}
