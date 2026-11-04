@@ -324,3 +324,220 @@
   .auth-card h1 { font-size: 22px; }
   .auth-step .as-label { display: none; }
 }
+
+/* ============================================================
+   LOGIN — estilos específicos
+   ============================================================ */
+
+.login-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 16px 0 22px;
+  flex-wrap: wrap;
+}
+
+.auth-check-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+.auth-check-inline input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.auth-check-inline .ac-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--border-strong);
+  background: rgba(255,255,255,.03);
+  display: grid;
+  place-items: center;
+  transition: .15s;
+  flex-shrink: 0;
+}
+.auth-check-inline .ac-box svg { opacity: 0; transform: scale(.5); transition: .15s; color: #0a0a0c; }
+.auth-check-inline input:checked + .ac-box {
+  background: #fff;
+  border-color: #fff;
+}
+.auth-check-inline input:checked + .ac-box svg { opacity: 1; transform: scale(1); }
+
+.forgot-link {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+  transition: color .15s;
+  padding: 2px 0;
+}
+.forgot-link:hover { color: #fff; }
+.forgot-link:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ============ 2FA ============ */
+.twofa-hero { text-align: center; margin-bottom: 22px; }
+.twofa-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 16px;
+}
+.twofa-hero h1 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  margin-bottom: 6px;
+  text-align: center;
+}
+.twofa-hero .auth-sub {
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.otp-inputs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.otp-digit {
+  width: 48px;
+  height: 56px;
+  padding: 0;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  font-family: inherit;
+  background: rgba(255,255,255,.028);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  transition: border-color .15s, background .15s, box-shadow .15s;
+  -moz-appearance: textfield;
+}
+.otp-digit::-webkit-outer-spin-button,
+.otp-digit::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.otp-digit:focus {
+  outline: 0;
+  border-color: var(--border-strong);
+  background: rgba(255,255,255,.06);
+  box-shadow: 0 0 0 4px rgba(255,255,255,.045);
+}
+.otp-digit.is-filled {
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+.otp-digit.has-error {
+  border-color: rgba(229,72,77,.55);
+  background: rgba(229,72,77,.05);
+}
+
+@media (max-width: 420px) {
+  .otp-digit { width: 42px; height: 48px; font-size: 19px; }
+  .otp-inputs { gap: 6px; }
+}
+
+.twofa-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+.twofa-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-muted);
+}
+.twofa-timer svg { color: var(--text-dim); }
+.twofa-timer strong {
+  color: var(--warn);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* ============ FORGOT MODAL ============ */
+.forgot-hero {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.forgot-hero .forgot-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--info) 14%, transparent);
+  color: var(--info);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 14px;
+}
+.forgot-hero h2 {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  margin-bottom: 6px;
+}
+.forgot-hero p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.forgot-success {
+  text-align: center;
+  padding: 4px 0;
+}
+.forgot-success .fs-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ok) 14%, transparent);
+  color: var(--ok);
+  display: grid;
+  place-items: center;
+  margin: 0 auto 16px;
+  animation: pop-in .35s var(--ease);
+}
+.forgot-success h2 {
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.forgot-success p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.forgot-success strong { color: var(--text); }
+
+/* ============ "Já logado" banner ============ */
+.already-logged {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--info) 30%, var(--border));
+  background: color-mix(in srgb, var(--info) 6%, transparent);
+  margin-bottom: 20px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+.already-logged svg { color: var(--info); flex-shrink: 0; margin-top: 1px; }
+.already-logged strong { color: var(--text); }
