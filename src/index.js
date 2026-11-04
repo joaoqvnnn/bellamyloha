@@ -47,6 +47,7 @@ app.get('/healthz', async (req, res) => {
 });
 
 // ==================== ROTAS ====================
+app.use('/api/admin', require('./routes/admin'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/wallet', require('./routes/wallet'));
 app.use('/api/checkout', require('./routes/checkout'));
