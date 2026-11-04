@@ -590,4 +590,440 @@
             </div>
             <div class="modal-actions">
               <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
-              <button
+              <button type="submit" class="btn btn-primary">Enviar código</button>
+            </div>
+          </form>
+        `;
+        const input = $('#contactNew');
+        input.addEventListener('input', () => { input.value = meta.mask(input.value); });
+        $('#contactForm1').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const val = input.value.trim();
+          if (!meta.validate(val)) {
+            $('#errContactNew').textContent = `Informe um ${meta.label.toLowerCase()} válido.`;
+            return;
+          }
+          step = 2;
+          render();
+          toast(`Código enviado para o ${meta.verifyTarget}.`, 'info');
+        });
+        setTimeout(() => input.focus(), 60);
+      } else if (step === 2) {
+        body.innerHTML = `
+          <h2 class="modal-title">Verificação</h2>
+          <p class="modal-text">Enviamos um código de 6 dígitos para o <strong>${meta.verifyTarget}</strong>. Digite-o abaixo para concluir a alteração.</p>
+          <form id="contactForm2" novalidate>
+            <div class="field-inline">
+              <label for="contactCode">Código de verificação</label>
+              <input id="contactCode" type="text" inputmode="numeric" maxlength="6" placeholder="000000" style="letter-spacing:.4em;font-family:ui-monospace,monospace;text-align:center;font-size:18px" />
+              <span class="field-error" id="errContactCode"></span>
+            </div>
+            <div class="modal-actions">
+              <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
+              <button type="submit" class="btn btn-primary">Confirmar</button>
+            </div>
+          </form>
+        `;
+        const code = $('#contactCode');
+        setTimeout(() => code.focus(), 60);
+        $('#contactForm2').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const val = code.value.trim();
+          if (!/^\d{6}$/.test(val)) {
+            $('#errContactCode').textContent = 'Digite os 6 dígitos.';
+            return;
+          }
+          // Mock: qualquer código de 6 dígitos é aceito
+          const oldValue = PROFILE_DATA[meta.field];
+          PROFILE_DATA[meta.field] = kind === 'email' ? $('#contactNew').value.trim() : $('#contactNew').value.replace(/\D/g, '');
+          PROFILE_DATA.history.unshift({
+            date: new Date().toISOString().slice(0, 16),
+            action: `${meta.label} alterado`,
+            detail: `Novo valor verificado por código. Anterior: ${maskValue(kind, oldValue)}`,
+          });
+          renderMaskedValues();
+          renderHistory();
+          closeAllModals();
+          toast(`${meta.label} alterado com sucesso.`, 'success');
+        });
+      }
+    };
+    render();
+    $('#contactModal').hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function maskValue(kind, value) {
+    if (kind === 'email') return maskEmail(value);
+    return maskPhone(value);
+  }
+
+  // ============ SENHA ============
+  function openPasswordModal() {
+    $('#passwordForm').reset();
+    $('#errPwdCurrent').textContent = '';
+    $('#errPwdNew').textContent = '';
+    $('#errPwdConfirm').textContent = '';
+    $('#pwdStrength').dataset.level = '0';
+    $('#passwordModal').hidden = false;
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => $('#pwdCurrent').focus(), 60);
+  }
+
+  function forcaSenha(p) {
+    if (!p) return 0;
+    let s = 0;
+    if (p.length >= 8) s++;
+    if (p.length >= 12) s++;
+    if (/[A-Z]/.test(p) && /[a-z]/.test(p)) s++;
+    if (/\d/.test(p)) s++;
+    if (/[^A-Za-z0-9]/.test(p)) s++;
+    return Math.min(s, 4);
+  }
+
+  // ============ EXCLUIR CONTA ============
+  function openDeleteModal() {
+    const body = $('#deleteModalBody');
+    body.innerHTML = `
+      <div class="confirm-icon confirm-icon-err">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg>
+      </div>
+      <h2 class="modal-title">Excluir conta permanentemente?</h2>
+      <p class="modal-text">Esta ação <strong style="color:var(--text)">não pode ser desfeita</strong>. Você perderá acesso a todas as telas, assinaturas, pedidos e saldo. Seus dados pessoais serão anonimizados, mas registros fiscais e de transações com CPF permanecerão por obrigação legal.</p>
+
+      <div class="field-inline">
+        <label for="deleteConfirm">Digite <strong style="color:var(--text)">EXCLUIR</strong> para confirmar</label>
+        <input id="deleteConfirm" type="text" autocomplete="off" />
+        <span class="field-error" id="errDelete"></span>
+      </div>
+      <div class="field-inline">
+        <label for="deletePassword">Sua senha</label>
+        <input id="deletePassword" type="password" autocomplete="current-password" />
+        <span class="field-error" id="errDeletePassword"></span>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancelar</button>
+        <button type="button" class="btn btn-danger-solid" id="confirmDelete">Excluir definitivamente</button>
+      </div>
+    `;
+    $('#deleteModal').hidden = false;
+    document.body.style.overflow = 'hidden';
+
+    $('#confirmDelete').addEventListener('click', () => {
+      const confirmText = $('#deleteConfirm').value.trim();
+      const pwd = $('#deletePassword').value;
+      $('#errDelete').textContent = '';
+      $('#errDeletePassword').textContent = '';
+      let ok = true;
+      if (confirmText !== 'EXCLUIR') {
+        $('#errDelete').textContent = 'Digite EXCLUIR (em maiúsculas).';
+        ok = false;
+      }
+      if (!pwd) {
+        $('#errDeletePassword').textContent = 'Informe sua senha.';
+        ok = false;
+      }
+      if (!ok) return;
+
+      closeAllModals();
+      toast('Conta marcada para exclusão. Você será desconectado.', 'warn');
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1500);
+    });
+  }
+
+  // ============ CONFIRM GENÉRICO ============
+  function openConfirm({ icon = 'warn', title, text, confirmLabel, onConfirm }) {
+    const iconSvg = {
+      warn: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.8 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17v.1"/></svg>',
+      ok:   '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>',
+      err:  '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m9 9 6 6M15 9l-6 6"/></svg>',
+    }[icon] || '';
+
+    // Cria modal dinâmico se não existir
+    let modal = $('#confirmGeneric');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'confirmGeneric';
+      modal.className = 'modal';
+      modal.innerHTML = `<div class="modal-backdrop" data-close></div><div class="modal-panel modal-sm" role="dialog" aria-modal="true"><div class="modal-body" id="confirmGenericBody"></div></div>`;
+      document.body.appendChild(modal);
+    }
+    $('#confirmGenericBody').innerHTML = `
+      <div class="confirm-icon confirm-icon-${icon}">${iconSvg}</div>
+      <h2 class="modal-title">${title}</h2>
+      <p class="modal-text">${text}</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" data-close>Voltar</button>
+        <button class="btn btn-primary" id="confirmGenericOk">${confirmLabel}</button>
+      </div>
+    `;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+
+    modal.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeAllModals));
+    $('#confirmGenericOk').addEventListener('click', () => {
+      closeAllModals();
+      onConfirm();
+    });
+  }
+
+  // ============ NOTIFICAÇÕES ============
+  function renderNotifications() {
+    const list = $('#notifList');
+    list.innerHTML = PROFILE_NOTIFICATIONS.map((n, i) => `
+      <div class="notif-item ${n.unread ? 'is-unread' : ''}" data-notif-index="${i}">
+        <div class="notif-item-icon ${n.type}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.1"/></svg>
+        </div>
+        <div class="notif-item-body">
+          <div class="notif-item-title">${n.title}</div>
+          <div class="notif-item-sub">${n.sub}</div>
+        </div>
+      </div>
+    `).join('');
+    const unread = PROFILE_NOTIFICATIONS.filter(n => n.unread).length;
+    const badge = $('#notifBadge');
+    badge.textContent = unread;
+    badge.style.display = unread > 0 ? '' : 'none';
+  }
+
+  // ============ EVENTOS ============
+  function closeAllModals() {
+    $$('.modal').forEach(m => m.hidden = true);
+    document.body.style.overflow = '';
+  }
+
+  function bindEvents() {
+    // Tabs
+    $$('.profile-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        state.tab = tab.dataset.tab;
+        $$('.profile-tab').forEach(t => t.classList.toggle('is-active', t === tab));
+        $$('.profile-panel').forEach(p => p.classList.toggle('is-active', p.dataset.panel === state.tab));
+      });
+    });
+
+    // Inputs → dirty
+    ['fullName', 'username', 'birthDate'].forEach(id => {
+      $('#' + id).addEventListener('input', () => markDirty(true));
+    });
+    ['cep', 'state', 'city', 'neighborhood', 'street', 'number', 'complement'].forEach(id => {
+      $('#' + id).addEventListener('input', () => markDirty(true));
+      $('#' + id).addEventListener('change', () => markDirty(true));
+    });
+
+    // CEP mask
+    $('#cep').addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 8);
+      v = v.replace(/(\d{5})(\d)/, '$1-$2');
+      e.target.value = v;
+      markDirty(true);
+    });
+
+    // Save/cancel
+    $('#saveChangesBtn').addEventListener('click', saveChanges);
+    $('#cancelChangesBtn').addEventListener('click', cancelChanges);
+
+    // Avatar
+    $('#avatarUploadBtn').addEventListener('click', () => $('#avatarFile').click());
+    $('#avatarEditBtn').addEventListener('click', () => $('#avatarFile').click());
+    $('#avatarFile').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) { toast('Envie uma imagem.', 'warn'); return; }
+      if (file.size > 3 * 1024 * 1024) { toast('Máximo 3MB.', 'warn'); return; }
+      const reader = new FileReader();
+      reader.onload = () => {
+        PROFILE_DATA.avatarUrl = reader.result;
+        PROFILE_DATA.history.unshift({
+          date: new Date().toISOString().slice(0, 16),
+          action: 'Foto de perfil alterada',
+          detail: 'Nova imagem enviada',
+        });
+        renderHeader();
+        renderHistory();
+        toast('Foto atualizada.', 'success');
+      };
+      reader.readAsDataURL(file);
+    });
+    $('#avatarRemoveBtn').addEventListener('click', () => {
+      PROFILE_DATA.avatarUrl = null;
+      PROFILE_DATA.history.unshift({
+        date: new Date().toISOString().slice(0, 16),
+        action: 'Foto de perfil removida',
+        detail: 'Avatar restaurado para as iniciais',
+      });
+      renderHeader();
+      renderHistory();
+      toast('Foto removida.', 'info');
+    });
+
+    // CPF
+    $('#cpfRequestBtn').addEventListener('click', openCpfModal);
+    $('#cpfRevealBtn').addEventListener('click', () => {
+      const el = $('#cpfMasked');
+      const isMasked = el.textContent.includes('***');
+      el.textContent = isMasked ? revealCPF(PROFILE_DATA.cpf) : maskCPF(PROFILE_DATA.cpf);
+      toast(isMasked ? 'Exibindo CPF completo temporariamente.' : 'CPF ocultado.', 'info');
+      if (isMasked) {
+        setTimeout(() => { el.textContent = maskCPF(PROFILE_DATA.cpf); }, 5000);
+      }
+    });
+
+    // Toggle máscara
+    $$('[data-toggle-mask]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.toggleMask;
+        state.revealed[key] = !state.revealed[key];
+        renderMaskedValues();
+      });
+    });
+
+    // Alterar contato
+    $$('[data-action="change-email"]').forEach(b => b.addEventListener('click', () => openContactModal('email')));
+    $$('[data-action="change-phone"]').forEach(b => b.addEventListener('click', () => openContactModal('phone')));
+    $$('[data-action="change-whatsapp"]').forEach(b => b.addEventListener('click', () => openContactModal('whatsapp')));
+
+    // Senha
+    $('#changePasswordBtn').addEventListener('click', openPasswordModal);
+    $('#passwordForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const current = $('#pwdCurrent').value;
+      const newPwd = $('#pwdNew').value;
+      const confirm = $('#pwdConfirm').value;
+      let ok = true;
+      $('#errPwdCurrent').textContent = '';
+      $('#errPwdNew').textContent = '';
+      $('#errPwdConfirm').textContent = '';
+      if (!current) { $('#errPwdCurrent').textContent = 'Informe a senha atual.'; ok = false; }
+      if (newPwd.length < 8) { $('#errPwdNew').textContent = 'Mínimo de 8 caracteres.'; ok = false; }
+      else if (forcaSenha(newPwd) <= 1) { $('#errPwdNew').textContent = 'Senha muito fraca.'; ok = false; }
+      if (newPwd !== confirm) { $('#errPwdConfirm').textContent = 'As senhas não coincidem.'; ok = false; }
+      if (!ok) return;
+      PROFILE_DATA.account.passwordChangedAt = new Date().toISOString().slice(0, 10);
+      PROFILE_DATA.history.unshift({
+        date: new Date().toISOString().slice(0, 16),
+        action: 'Senha alterada',
+        detail: 'Alteração feita a partir da página de perfil',
+      });
+      renderSecurity();
+      renderHistory();
+      closeAllModals();
+      toast('Senha alterada com sucesso.', 'success');
+    });
+
+    // Força da senha
+    $('#pwdNew').addEventListener('input', (e) => {
+      $('#pwdStrength').dataset.level = forcaSenha(e.target.value);
+    });
+
+    // Olhinho nos passwords
+    $$('[data-eye]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const el = $('#' + btn.dataset.eye);
+        el.type = el.type === 'password' ? 'text' : 'password';
+      });
+    });
+
+    // Two-factor
+    $('#twoFaToggle').addEventListener('change', (e) => {
+      const enabled = e.target.checked;
+      if (enabled) {
+        PROFILE_DATA.account.twoFactorEnabled = true;
+        PROFILE_DATA.history.unshift({
+          date: new Date().toISOString().slice(0, 16),
+          action: '2FA ativado',
+          detail: 'Autenticação em duas etapas por e-mail habilitada',
+        });
+        toast('2FA ativado.', 'success');
+      } else {
+        openConfirm({
+          icon: 'warn',
+          title: 'Desativar 2FA?',
+          text: 'Sua conta ficará menos protegida. Recomendamos manter ativado.',
+          confirmLabel: 'Sim, desativar',
+          onConfirm: () => {
+            PROFILE_DATA.account.twoFactorEnabled = false;
+            $('#twoFaToggle').checked = false;
+            PROFILE_DATA.history.unshift({
+              date: new Date().toISOString().slice(0, 16),
+              action: '2FA desativado',
+              detail: 'Autenticação em duas etapas desativada pelo usuário',
+            });
+            renderHistory();
+            toast('2FA desativado.', 'warn');
+          },
+        });
+        e.target.checked = true; // reverte até confirmar
+      }
+    });
+
+    // End all sessions
+    $('#endAllSessions').addEventListener('click', () => {
+      openConfirm({
+        icon: 'warn',
+        title: 'Encerrar todas as outras sessões?',
+        text: 'Todos os outros dispositivos serão desconectados. Você continuará logado apenas aqui.',
+        confirmLabel: 'Encerrar todas',
+        onConfirm: () => {
+          PROFILE_DATA.sessions = PROFILE_DATA.sessions.filter(s => s.current);
+          PROFILE_DATA.history.unshift({
+            date: new Date().toISOString().slice(0, 16),
+            action: 'Todas as sessões encerradas',
+            detail: 'Exceto a sessão atual',
+          });
+          renderSecurity();
+          renderHistory();
+          toast('Todas as outras sessões foram encerradas.', 'success');
+        },
+      });
+    });
+
+    // Excluir conta
+    $('#deleteAccountBtn').addEventListener('click', openDeleteModal);
+
+    // Fechar modais
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('[data-close]')) closeAllModals();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAllModals(); });
+
+    // Notificações
+    const notifBtn = $('#notifBtn');
+    notifBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const parent = notifBtn.closest('.dropdown');
+      const isOpen = parent.classList.toggle('is-open');
+      notifBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+    $('#notifMarkAll').addEventListener('click', (e) => {
+      e.stopPropagation();
+      PROFILE_NOTIFICATIONS.forEach(n => n.unread = false);
+      renderNotifications();
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.dropdown')) {
+        $$('.dropdown.is-open').forEach(d => d.classList.remove('is-open'));
+      }
+    });
+  }
+
+  // ============ INIT ============
+  function init() {
+    // Prepara o draft editável (cópia dos dados)
+    state.draft = {
+      fullName: PROFILE_DATA.fullName,
+      username: PROFILE_DATA.username,
+      birthDate: PROFILE_DATA.birthDate,
+      address: clone(PROFILE_DATA.address),
+    };
+    renderHeader();
+    fillForm();
+    renderNotifications();
+    bindEvents();
+  }
+  document.addEventListener('DOMContentLoaded', init);
+})();
